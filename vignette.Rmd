@@ -1,0 +1,138 @@
+---
+title: "placeR_vignette"
+author: "Ulrich Matter"
+date: "January 17, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Set Up
+
+Install and load the package:
+```{r}
+#devtools::install_github("umatter/placeR")
+#library(placeR)
+
+devtools::load_all()
+```
+
+The package's request functions expect a variable `api.key` with the Google Places API Key stored in it in the global environment.
+```{r}
+api.key <- readLines("_misc/key")[1]
+```
+
+
+## Example of simple searches
+
+### Search Restaurants in New York
+
+Search restaurants in a given radius around specific coordinates with `searchNearby()`.
+```{r}
+nyrest <- searchNearby(location="40.7,-74.0", radius=5000, types="restaurant")
+```
+
+Inspect the results. The formatted data can be extracted via `placesData()`. 
+```{r}
+# check the class of the returned object
+class(nyrest)
+
+# extract and inspect data
+ny <- placesData(nyrest)
+dim(ny)
+str(ny)
+head[1:3,1:4]
+```
+
+Or we can plot the results via the plot method for objects of class "`placesearch`":
+```{r}
+plot(nyrest, ggmap.zoom=12)
+```
+
+## Large area searches
+
+### Detailed example, step by step
+
+Define the search parameters. Two points (coordinates) define the bounding box.
+```{r}
+sa <- c(5.5, 11, 45.5, 48)
+a.df <- as.data.frame(matrix(data=sa, nrow=2, ncol=2))
+names(a.df) <- c("x","y")
+```
+
+Set the radius of each individual radar search
+```{r}
+r=50000
+```
+
+Compute search points for searchRadar. That is, at which points of the overall area should a radar search be executed.
+```{r}
+sdlpoints <- getPointsArea(area=a.df, radius=r)
+sdllocs <- locations(sdlpoints)
+```
+
+Now, we execute the radar search for the first five locations:
+```{r}
+sdltest <- searchRadar(location=sdllocs[1:5], types="restaurant", saveDL=FALSE)
+```
+
+Extract the references to each place/location for the detail search, and execute the details search
+```{r}
+
+# Not yet implemented
+# refstest <- na.omit(as.character(sdltest$reference))
+# # search details to the references
+# details_test <- placeDetails(reference=refstest[1:150],
+#                              saveDL=TRUE, 
+#                              chunksize=10) 
+
+```
+
+
+## Example using AreaScan (high level function)
+```{r}
+# example of search: scan all switzerland
+library(sp)
+cantons <- readRDS(url("https://biogeo.ucdavis.edu/data/gadm3.6/Rsp/gadm36_CHE_1_sp.rds")) # get a shapefile with swiss admin. borders
+print(cantons)
+
+# extract map edges
+edges <- getEdges(x=cantons) 
+
+# plot search area
+area <- getPointsArea(edges, radius=20000)
+plot(area)
+```
+
+
+## Extended example to demonstrate areaScan
+The goal of the exercise is to get information on 'all' restaurants in a canton.
+
+First, load the respective shapefile
+```{r}
+cantons <- readRDS(url("https://biogeo.ucdavis.edu/data/gadm3.6/Rsp/gadm36_CHE_1_sp.rds")) # get a shapefile with swiss admin. borders
+ag <- cantons[cantons$NAME_1=="Aargau",] 
+bs <- cantons[cantons$NAME_1=="Basel-Stadt",] 
+```
+
+Run the area scan. Note that due to the depriciation of the API's radar search function, the results are restricted to 20 (60 if going to next page).
+```{r}
+# extract map edges
+edges <- getEdges(x=ag) 
+# run the scan
+scanresp <- areaScan(area=edges, radius=8000, types="restaurant", details=FALSE )
+```
+
+Extract, clean, and have a look at the data...
+```{r}
+data <- placesData(scanresp)
+data <- data[!duplicated(data$id),]
+View(data)
+```
+
+
+
+
+

@@ -17,7 +17,7 @@ searchRequest <-
     response.list <- lapply(url.list,
                             FUN=function(.url){
 
-      if (url_success(.url)) {
+      if (!http_error(.url)) {
 
         response <- GET(url=.url) #GET the response as response-object (httr), maybe add later: , user_agent("GooglePlaceR")
         cont <- content(response, as="parsed") #parse the content (should automatically recognize json and parse it)

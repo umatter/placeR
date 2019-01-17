@@ -49,12 +49,14 @@ generateParametersText <-
 
 # for radar search
 # example: generateParametersRadar(location="51.503186,-0.126446", radius=5000, types="museum")
+# NOTE: original radar search has depreciated, see https://cloud.google.com/blog/products/maps-platform/announcing-deprecation-of-place-add
+# "Nearby Search can work as an alternative for Radar Search, when used with rankby=distance and without keyword or name"
 generateParametersRadar <-
-  function (location, radius, sensor="false", keyword=NULL, name=NULL, types=NULL) {
+  function (location, sensor="false", types=NULL) {
 
     url.list <- lapply(location, FUN= function(l.){
-      params <- paste("location=", l., "&radius=", radius, "&sensor=", sensor, "&keyword=", keyword, "&name=", name, "&types=", types, sep="")
-      generateURL(searchtype="radarsearch", search.param=params)
+      params <- paste("location=", l., "&sensor=", sensor, "&types=", types,  "&rankby=distance", sep="")
+      generateURL(searchtype="nearbysearch", search.param=params)
 
     })
 
@@ -76,3 +78,22 @@ generateParametersDetails <-
     return(url.list)
 
   }
+
+
+#-----------------------
+# dlStatus(x, pause=0)
+#-----------------------
+# A function that shows the current id/object in a loop or vectorized function and pauses
+# the loop for a certain time if needed
+# x = the current id/object in the loop
+# pause
+
+dlStatus <-
+  function(x, pause=0) {
+
+    Sys.sleep(pause)
+    cat("\r",x)
+    flush.console()
+
+  }
+

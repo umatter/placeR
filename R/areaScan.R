@@ -37,7 +37,8 @@ areaScan <-
 
       points <- getPointsArea(area, radius)
       locs <- locations(points)
-      refs <- searchRadar(location=locs, radius=radius, types=types)
+      #refs <- searchRadar(location=locs, radius=radius, types=types) # original radar search is depreciated
+      refs <- searchNearby(location=locs, radius=radius, types=types)
       #     latlong <- strsplit(x=refs$search.location, split=",", fixed=TRUE)
       #     latlong  <- do.call("rbind", latlong)
       #     refs$lat <- latlong[,1]
@@ -50,7 +51,8 @@ areaScan <-
 
       points <- getPointsArea(area, radius)
       locs <- locations(points)
-      refs1 <- searchRadar(location=locs, radius=radius, types=types)
+      #refs1 <- searchRadar(location=locs, radius=radius, types=types) # original radar search is depreciated
+      refs1 <- searchNearby(location=locs, radius=radius, types=types)
       refs2 <- unique(na.omit(as.character(refs1$reference))) #extract unique references for detailed search
 
       detail <- placesData(placeDetails(reference=refs2)) # search details to the references

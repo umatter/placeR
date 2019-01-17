@@ -18,6 +18,7 @@
 ##' # example:
 ##' r2squareSide(5)
 ##' @export
+##' @import Imap geosphere
 ##'
 
 getPointsArea <-
