@@ -44,7 +44,7 @@ areaScan <-
       #     refs$lat <- latlong[,1]
       #     refs$lng <- latlong[,2]
 
-      scanresp <- new("scan", search.results = refs, locations = points)
+      scanresp <- new("scan", search.results = placesData(refs), locations = points)
       return(scanresp)
 
     } else {

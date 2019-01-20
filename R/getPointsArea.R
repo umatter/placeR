@@ -84,6 +84,12 @@ getPointsArea <-
     # Compute variables for plot method
 
     # (outer gridlines only for illustration)
+    if (res_raster > distance.h ) {
+      res_raster <- distance.h
+    }
+    if (res_raster > distance.v ) {
+      res_raster <- distance.v
+    }
     grid.h <- seq(from=res_raster, to=distance.h, by=res_raster)
     grid.v <- seq(from=res_raster, to=distance.v, by=res_raster)
 

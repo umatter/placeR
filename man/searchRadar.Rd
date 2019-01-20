@@ -4,20 +4,13 @@
 \alias{searchRadar}
 \title{Search Large Areas}
 \usage{
-searchRadar(location, radius, sensor = "false", keyword = NULL,
-  name = NULL, types = NULL, saveDL = FALSE, chunksize = 10,
-  pause = 0)
+searchRadar(location, sensor = "false", types = NULL, saveDL = FALSE,
+  chunksize = 10, pause = 0)
 }
 \arguments{
 \item{location}{character, containing the coordinates (long/lat separated by a comma) of where the map search shall be executed}
 
-\item{radius}{numeric, giving radius to be used for the nearby search}
-
 \item{sensor}{character, the map search sensor option (defaults to "false")}
-
-\item{keyword}{character, keywords to be used (defaults to NULL)}
-
-\item{name}{character, name parameter of search (defaults to NULL)}
 
 \item{types}{character, types of objects to be searched (defaults to NULL)}
 
@@ -34,15 +27,18 @@ a data.frame
 Main search function for large area searches ('radarsearch')
 }
 \details{
+NOTE: THE RADAR SEARCH FUNCTION IS NOT ANYMORE SUPPORTED BY GOOGLE, SEE
+https://cloud.google.com/blog/products/maps-platform/announcing-deprecation-of-place-add.
+THE FUNCTION IS NOW IMPLEMENTED AS THE SUGGESTED REPLACEMENT, HOWEVER THIS DOES NOT ANYMORE SUPPORT RADIUS!
 Takes parameter values according to google Places API
 all parameter values are character strings, but the location value can be a
 list of lat/long-character-strings (allowing for automated search of many locations)
 }
 \examples{
 example (taken from google developers):
-searchRadar(location="51.503186,-0.126446", radius=5000, types="museum")
+searchRadar(location="51.503186,-0.126446", types="museum")
 example 2 (Basel)
-searchRadar(location="47.566667,7.6", radius=2000, types="restaurant")
+searchRadar(location="47.566667,7.6", types="restaurant")
 }
 \author{
 Ulrich Matter <umatter@protonmail.com>

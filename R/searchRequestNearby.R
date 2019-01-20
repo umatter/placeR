@@ -44,7 +44,7 @@ searchRequestNearby <-
 
         }
 
-        resp.list
+        return(resp.list)
 
       }else{
 
@@ -52,13 +52,13 @@ searchRequestNearby <-
         warn_for_status(response) #issues a warning if a http error occurs
 
         httperror <- http_status(response)
-        httperror
+        return(httperror)
 
       }
 
 
     })
 
-    unlist(response.list, recursive=FALSE) # possibly an alternative: redlist
+    return(unlist(response.list, recursive=FALSE)) # possibly an alternative: redlist
 
   }
