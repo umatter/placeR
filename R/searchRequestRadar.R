@@ -1,11 +1,10 @@
 ##' Search Request Radar
 ##'
 ##' Sends GET requests, extracts and parses response objects
-##' @url.list list of urls (character strings)
+##' @param url.list list of urls (character strings)
 ##' @return a list with the parsed json objects
-##' @details
+##' @details ...
 ##' @author Ulrich Matter <umatter@protonmail.com>
-##' @examples
 ##' @export
 ##' @import httr
 

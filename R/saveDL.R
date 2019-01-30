@@ -7,7 +7,7 @@
 ##' @param chunksize ingeger, number of cases in one chunk
 ##' @param pause numeric, duration of break between chunks in seconds
 ##' @param backupfile character, the path/name of the file to cache the data during download in progress
-##' @url.list list of urls (character strings)
+##' @param url.list list of urls (character strings)
 ##' @return a list with the parsed json objects
 ##' @details an internal function for request functions to manage a large number of requests. the queries are split up and the responses saved on disk chunk by chunk
 ##' @author Ulrich Matter <umatter@protonmail.com>

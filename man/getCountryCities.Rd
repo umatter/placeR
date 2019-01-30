@@ -5,7 +5,7 @@
 \title{Get City Polygons of a Country
 Extracts polygon 'city' boundaries from GHS settlement grid raster data}
 \usage{
-getCountryCities(r, country, min_value, tol=0.1)
+getCountryCities(r, country, min_value = 3, tol=0.1)
 }
 \arguments{
 \item{r}{RasterLayer object of imported GHS settlement grid raster file, or path to such a file}
@@ -27,6 +27,11 @@ Extracts polygon 'city' boundaries from GHS settlement grid raster data
 The European Commission's GHS SETTLEMENT GRID (LDS) (https://ghslsys.jrc.ec.europa.eu/ghs_smod.php) provides raster data on settlements (urban centers/surroundings)
 worldwide. This function takes their data as input, identifies all urban areas ('cities') in a given country, and extracts
 the shape of the cities (polygons) as features of one SpatialPolygons object of the country's extent.
+}
+\examples{
+PATH <- "_misc/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0.tif"
+swiss_cities <- getCountryCities(PATH, country="SWITZERLAND", tol=0.05)
+plot(swiss_cities)
 }
 \author{
 Ulrich Matter <umatter@protonmail.com>

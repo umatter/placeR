@@ -1,12 +1,11 @@
 ##' Search Request
 ##'
 ##' sends GET requests, extracts and parses response objects,
-##' @url.list list of urls (character strings)
+##' @param url.list list of urls (character strings)
 ##' @return a list with the parsed json objects
 ##' @details NOTE the function automatically requests additional results if available. This requires to suspend execution in order to
 ##' respect the time gap "between when a next_page_token is issued, and when it will become valid." (see: https://developers.google.com/places/documentation/search)
 ##' @author Ulrich Matter <umatter@protonmail.com>
-##' @examples
 ##' @export
 ##' @import httr
 

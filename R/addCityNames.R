@@ -12,9 +12,9 @@
 ##' poly <- getCountryCities(PATH, country="SWITZERLAND", tol=0.05)
 ##' # load cities from http://worldmap.harvard.edu/data/geonode:placemarks_edited_columns_yz6
 ##' cities <- "_misc/placemarks_edited_columns_yz6/placemarks_edited_columns_yz6.shp"
-##' swiss_cities_named <- addCityNames(swiss_cities, citypath)
+##' swiss_cities_named <- addCityNames(poly, cities)
 ##' @export
-##' @import sp rgeos rgdal spacialEco
+##' @import sp rgeos rgdal spatialEco data.table
 ##'
 
 addCityNames <-
@@ -27,17 +27,32 @@ addCityNames <-
       }
     }
 
-    stopifnot(class(rdat)=="RasterLayer")
+    stopifnot(class(cities)=="SpatialPointsDataFrame")
 
-    # cut out city-markers within polygons
-    cities_data <- cities@data
-    cities_dat <- over(cities_data, poly[,"id"])
-    # does not work properly yet. Problem: poly is not a spatialPointsDataFrame,
-    # better to improve this in getCountryCities!
+    # cut out city-markers within polygons and merge meta data
+    cities_points <- SpatialPoints(cities@coords, cities@proj4string, cities@bbox)
+    match_data <- na.omit(over(cities_points, poly))
+    points_data <- cities@data[row.names(match_data),]
+    points_data$match_id <- row.names(points_data)
+    match_data$match_id <- row.names(match_data)
+    match_data <- as.data.table(merge(match_data, points_data, by="match_id"))
 
+    # filter/clean results (current goal: keep only major cities)
+    match_data[,is_max:=max(population)==population, by=ID]
+    match_data <- match_data[is_max==TRUE]
+    match_data$match_id <- NULL
+    match_data$is_max <- NULL
 
+    # add to polygon data
+    poly@data <- merge(poly@data,
+                       match_data[,-2],
+                       by="ID",
+                       all.x = TRUE,
+                       all.y=FALSE)
 
-  }
+    return(poly)
+
+}
 
 
 

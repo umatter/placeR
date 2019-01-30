@@ -18,6 +18,14 @@ Takes the reference code of a place and returns detailed information about this 
 \details{
 see https://developers.google.com/places/documentation/details for a list of all variables
 }
+\examples{
+placeDetails("CmRYAAAAciqGsTRX1mXRvuXSH2ErwW-jCINE1aLiwP64MCWDN5vkXvXoQGPKldMfmdGyqWSpm7BEYCgDm-iv7Kc2PF7QA7brMAwBbAcqMr5i1f4PwTpaovIZjysCEZTry8Ez30wpEhCNCXpynextCld2EBsDkRKsGhSLayuRyFsex6JA6NPh9dyupoTH3g")
+# typical usage example (Basel)
+# 1. get references to restaurants via radar search:
+refs <- searchRadar(location="47.566667,7.6", radius=2000, types="restaurant")
+# 2. get details to all these references:
+rest.basel <- placeDetails(reference=refs$reference)
+}
 \author{
 Ulrich Matter <umatter@protonmail.com>
 }

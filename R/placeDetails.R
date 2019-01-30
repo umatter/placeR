@@ -6,7 +6,7 @@
 ##' @return a placedetails object
 ##' @details see https://developers.google.com/places/documentation/details for a list of all variables
 ##' @author Ulrich Matter <umatter@protonmail.com>
-##' @example
+##' @examples
 ##'placeDetails("CmRYAAAAciqGsTRX1mXRvuXSH2ErwW-jCINE1aLiwP64MCWDN5vkXvXoQGPKldMfmdGyqWSpm7BEYCgDm-iv7Kc2PF7QA7brMAwBbAcqMr5i1f4PwTpaovIZjysCEZTry8Ez30wpEhCNCXpynextCld2EBsDkRKsGhSLayuRyFsex6JA6NPh9dyupoTH3g")
 ##' # typical usage example (Basel)
 ##' # 1. get references to restaurants via radar search:

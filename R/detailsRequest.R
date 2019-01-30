@@ -1,12 +1,11 @@
 ##' Details Request
 ##'
 ##' Handles GET requests for the details method of the Google Places API
-##' @usage detailsRequest(url.list)
-##' @url.list list of urls (character strings)
+##' @param usage detailsRequest(url.list)
+##' @param url.list list of urls (character strings)
 ##' @return a list with the parsed json objects
 ##' @details sends GET requests, extracts and parses response objects, returns a list with the parsed json objects
 ##' @author Ulrich Matter <umatter@protonmail.com>
-##' @examples
 ##' @export
 ##' @import httr
 

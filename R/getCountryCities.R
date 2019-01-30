@@ -1,6 +1,6 @@
 ##' Get City Polygons of a Country
 ##' Extracts polygon 'city' boundaries from GHS settlement grid raster data
-##' @usage getCountryCities(r, country, min_value, tol=0.1)
+##' @usage getCountryCities(r, country, min_value = 3, tol=0.1)
 ##' @param r RasterLayer object of imported GHS settlement grid raster file, or path to such a file
 ##' @param country character, name of the country according to GADM database
 ##' @param min_value integer, minimum cell value to consider (as 'city', defaults to 3, urban centers)
@@ -10,12 +10,19 @@
 ##' worldwide. This function takes their data as input, identifies all urban areas ('cities') in a given country, and extracts
 ##' the shape of the cities (polygons) as features of one SpatialPolygons object of the country's extent.
 ##' @author Ulrich Matter <umatter@protonmail.com>
-##' @example
+##' @examples
 ##' PATH <- "_misc/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0.tif"
 ##' swiss_cities <- getCountryCities(PATH, country="SWITZERLAND", tol=0.05)
 ##' plot(swiss_cities)
 ##' @export
-##' @import sp rgeos raster
+##' @import sp rgeos
+##' @importFrom raster getData
+##' @importFrom raster crop
+##' @importFrom raster mask
+##' @importFrom raster projectRaster
+##' @importFrom raster raster
+##' @importFrom raster rasterToPolygons
+##' @importFrom raster crs
 ##'
 
 
@@ -68,6 +75,14 @@ getCountryCities <-
     # assign polygons as features
     message("Extracting city polygons...\n")
     cities <- extractPolygonIslands(r_cty_pol)
+    cities_meta <- lapply(cities@polygons,
+                          FUN = function(i){
+                            data.frame(ID=i@ID,
+                                       area=i@area)
+                          })
+    cities_df <- do.call("rbind", cities_meta)
+    cities <- SpatialPolygonsDataFrame(Sr = cities,
+                                       data = cities_df)
 
     return(cities)
   }

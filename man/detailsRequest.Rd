@@ -6,6 +6,11 @@
 \usage{
 detailsRequest(url.list)
 }
+\arguments{
+\item{url.list}{list of urls (character strings)}
+
+\item{usage}{detailsRequest(url.list)}
+}
 \value{
 a list with the parsed json objects
 }
