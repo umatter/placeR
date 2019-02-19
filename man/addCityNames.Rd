@@ -8,12 +8,12 @@ Matches coordinates (poins) of cities to urban center polygons.}
 addCityNames(poly, cities)
 }
 \arguments{
-\item{poly}{SpatialPolygons object (identifying cities as features)}
+\item{poly}{SpatialPolygonsDataFrame object (identifying cities as features)}
 
 \item{cities}{path to shapefile containing official city coordinates}
 }
 \value{
-SpatialPolygons object
+SpatialPolygonsDataFrame object
 }
 \description{
 Add City Names

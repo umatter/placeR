@@ -89,7 +89,7 @@ Extract the references to each place/location for the detail search, and execute
 ```
 
 
-## Example preparation of areaScan
+### Example preparation of areaScan
 ```{r}
 # example of search: scan all switzerland
 library(sp)
@@ -104,7 +104,7 @@ plot(area)
 ```
 
 
-## Extended example to demonstrate areaScan
+### Extended example to demonstrate areaScan
 The goal of the exercise is to get information on 'all' churches in a canton.
 
 First, load the respective shapefile with the Swiss administrative borders and select one canton.
@@ -124,11 +124,90 @@ Extract, clean, and have a look at the data...
 ```{r}
 data <- placesData(scanresp)
 data <- data[!duplicated(data$id),]
-data[1:4,1:2]
 plot(scanresp, ggmap.zoom=12, ncircles=6)
 ```
 
 
 
+## Religious fragmentation case study
 
+We use the Google Places API in order to identify places of worship in Swiss cities. In order to identify the search areas we need suggest the following generalizable approach to define cities/urban areas (independent of juristictional borders).
+
+1.  In a first step, we import raster data indicating settlements around the globe from the European Commission's [GHS SETTLEMENT GRID (LDS)](https://ghslsys.jrc.ec.europa.eu/ghs_smod.php).
+2. We crop the raster area of the country under analysis based on the country's [GADM](https://gadm.org/) shapefile.
+3. The country raster is converted into polygons, keeping only the outer borders. This results in polygons of the country's settled/urban areas.
+4. Each polygon of an urban area (island) is extracted as an individual feature.
+5. By overlaying the extracted urban areas with [Harvard WorldMap's Placemarks data](http://worldmap.harvard.edu/data/geonode:placemarks_edited_columns_yz6), we assign to each urban area the name, id, and additional metadata of the city with the largest population falling into the respective area.
+
+The following Figure illustrates the procedure for Switzerland.
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+# first get the cities polygons
+PATH <- "_misc/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0.tif"
+# run steps 1-4
+poly <- getCountryCities(PATH, country="SWITZERLAND", tol=0.01, intermediate = TRUE)
+
+# run step 5
+# load cities from http://worldmap.harvard.edu/data/geonode:placemarks_edited_columns_yz6
+markers <- "_misc/placemarks_edited_columns_yz6/placemarks_edited_columns_yz6.shp"
+poly$cities <- addCityNames(poly$cities, markers)
+
+# plot the results
+par(mfrow=c(2,2))
+plot(poly$settlement_raster, main="Settlement raster")
+plot(poly$country_raster, main="Settlements within country")
+plot(poly$city_raster, main="Cities within country")
+plot(poly$country, add = TRUE)
+plot(poly$cities, main="Identified city polygons", border="steelblue")
+plot(poly$country, add = TRUE)
+
+
+```
+
+
+As a result, we can identify the metropolitan areas/cities, and merge additional information.
+```{r echo=FALSE}
+cities <- poly$cities
+# plot with labels (taken from https://stackoverflow.com/a/5144951)
+sp.label <- function(x, label) {
+    list("sp.text", coordinates(x), label)
+}
+
+city.sp.label <- function(x) {
+    sp.label(x, x$asciiname)
+}
+
+
+spplot(cities,
+       main="Urban areas in Switzerland",
+       zcol = "area",
+       sp.layout = city.sp.label(cities),
+       auto.key = list(title = "Area"))
+```
+
+Based on this, we can gather for each city polygon the places of worship with the following procedure:
+
+1. Extract all city polygons per country.
+2. For each city polygon in each country, divide the polygons' bounding boxes into a grid of square cells. The squares' size is defined by radius parameter of the [Google Places API's Nearby Search Method](https://developers.google.com/places/web-service/search) as per the following rationale:
+  - Each Nearby Search request returns up to 60 places of interest (fitting certain keywords) within a given `radius` ($r$) of a given point on the globe (long/lat-coordinates, $c_{i}$). 
+  - In order to cover the entire bounding box of a city polynomial, we have to derive the coordinates $c_{i}$ based on which searches for places via the Places API cover the entire area of the box, given $r$ (which essentially defines the granularity of the search results).
+  - To do so, we first compute the length $a$ of the side of the square that has a diagonal equal to $2\times r$: $a=\sqrt{(2\times r)^{2}/2}$. Then, we divide the box into squares of lenght $a$ from top-left to bottom-right.
+  - Finally, we calculate the destination points that mark the center of each of these squares ($c_{i}$), traveling along the rhumb line from square cell to square cell (direction left to right, for each 'row')  with distance $a/2$ from the grid lines.
+3. We call the API's Nearby Search method for each coordinate $c_{i}$, extracting all (up to) 60 search results.
+4. Based on the search results for each city polygon, we compute the *Fragmentation Index*.
+
+The following figure and table illustrate the procedure for the case of the canton of Basel-Stadt (input: polygon of the official cantonal borders).
+
+_TODO: Extend the example with the real procedure, by taking all Swiss cities (or one of the cities) as input_
+
+```{r}
+plot(scanresp, ggmap.zoom=12, ncircles=6)
+```
+The black lines indicate the bounding box of the input polygon (cantonal borders). The blue circles and cross hairs indicate the Nearby Search area/radius and the search coordinates, respectively. The small red circles indicate the search results (for place type `"church"`). The following table shows the details of the first few search results
+
+```{r}
+library(knitr)
+kable(data[1:10, 1:6])
+
+```
 

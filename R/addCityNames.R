@@ -1,9 +1,9 @@
 ##' Add City Names
 ##' Matches coordinates (poins) of cities to urban center polygons.
 ##' @usage addCityNames(poly, cities)
-##' @param poly SpatialPolygons object (identifying cities as features)
+##' @param poly SpatialPolygonsDataFrame object (identifying cities as features)
 ##' @param cities path to shapefile containing official city coordinates
-##' @return SpatialPolygons object
+##' @return SpatialPolygonsDataFrame object
 ##' @details ...
 ##' @author Ulrich Matter <umatter@protonmail.com>
 ##' @examples
@@ -48,7 +48,8 @@ addCityNames <-
                        match_data[,-2],
                        by="ID",
                        all.x = TRUE,
-                       all.y=FALSE)
+                       all.y = FALSE)
+    poly@data <- poly@data[order(poly@data$ID),]
 
     return(poly)
 

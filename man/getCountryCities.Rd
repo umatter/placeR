@@ -5,7 +5,7 @@
 \title{Get City Polygons of a Country
 Extracts polygon 'city' boundaries from GHS settlement grid raster data}
 \usage{
-getCountryCities(r, country, min_value = 3, tol=0.1)
+getCountryCities(r, country, min_value = 3, tol=0.1, intermediate=FALSE)
 }
 \arguments{
 \item{r}{RasterLayer object of imported GHS settlement grid raster file, or path to such a file}
@@ -15,9 +15,11 @@ getCountryCities(r, country, min_value = 3, tol=0.1)
 \item{min_value}{integer, minimum cell value to consider (as 'city', defaults to 3, urban centers)}
 
 \item{tol}{numeric, tolerance value to be used by the Douglas-Peuker algorithm to simplify the country-shapefile, defaults to .1}
+
+\item{intermediate}{logical, if TRUE, intermediate results (raster data and country polygon are returned as well), defaults to FALSE}
 }
 \value{
-SpatialPolygons object
+SpatialPolygonsDataFrame object (or a list of SpatialPolygonsDataFrame, raster and SpatialPolygons objects, see details)
 }
 \description{
 Get City Polygons of a Country
