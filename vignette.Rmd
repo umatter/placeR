@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Set Up
 
 Install and load the package:
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(devtools)
 #devtools::install_github("umatter/placeR")
 #library(placeR)
@@ -20,7 +20,7 @@ devtools::load_all()
 ```
 
 The package's request functions expect a variable `api.key` with the Google Places API Key stored in it in the global environment.
-```{r}
+```{r message=FALSE, warning=FALSE}
 api.key <- readLines("_misc/key")[1]
 ```
 
@@ -30,12 +30,12 @@ api.key <- readLines("_misc/key")[1]
 ### Search Restaurants in New York
 
 Search restaurants in a given radius around specific coordinates with `searchNearby()`.
-```{r}
+```{r message=FALSE, warning=FALSE}
 nyrest <- searchNearby(location="40.7,-74.0", radius=5000, types="restaurant")
 ```
 
 Inspect the results. The formatted data can be extracted via `placesData()`. 
-```{r}
+```{r message=FALSE, warning=FALSE}
 # check the class of the returned object
 class(nyrest)
 
@@ -47,7 +47,7 @@ ny[1:3,1:4]
 ```
 
 Or we can plot the results via the plot method for objects of class "`placesearch`":
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(ggmap)
 register_google(api.key)
 plot(nyrest, ggmap.zoom=12)
@@ -58,26 +58,26 @@ plot(nyrest, ggmap.zoom=12)
 ### Detailed example, step by step
 
 Define the search parameters. Two points (coordinates) define the bounding box.
-```{r}
+```{r message=FALSE, warning=FALSE}
 sa <- c(5.5, 11, 45.5, 48)
 a.df <- as.data.frame(matrix(data=sa, nrow=2, ncol=2))
 names(a.df) <- c("x","y")
 ```
 
 Set the radius of each individual radar search
-```{r}
+```{r message=FALSE, warning=FALSE}
 r=50000
 ```
 
 Compute search points for searchRadar. That is, at which points of the overall area should a radar search be executed.
-```{r}
+```{r message=FALSE, warning=FALSE}
 sdlpoints <- getPointsArea(area=a.df, radius=r)
 sdllocs <- locations(sdlpoints)
 ```
 
 
 Extract the references to each place/location for the detail search, and execute the details search
-```{r}
+```{r message=FALSE, warning=FALSE}
 
 # Not yet implemented
 # refstest <- na.omit(as.character(sdltest$reference))
@@ -90,7 +90,7 @@ Extract the references to each place/location for the detail search, and execute
 
 
 ### Example preparation of areaScan
-```{r}
+```{r message=FALSE, warning=FALSE}
 # example of search: scan all switzerland
 library(sp)
 cantons <- readRDS(url("https://biogeo.ucdavis.edu/data/gadm3.6/Rsp/gadm36_CHE_1_sp.rds")) 
@@ -108,12 +108,12 @@ plot(area)
 The goal of the exercise is to get information on 'all' churches in a canton.
 
 First, load the respective shapefile with the Swiss administrative borders and select one canton.
-```{r}
+```{r message=FALSE, warning=FALSE}
 bs <- cantons[cantons$NAME_1=="Basel-Stadt",] 
 ```
 
 Run the area scan. Note that due to the depriciation of the API's radar search function, the results are restricted to 20 (60 if going to next page).
-```{r}
+```{r message=FALSE, warning=FALSE}
 # extract map edges
 edges <- getEdges(x=bs) 
 # run the scan
@@ -121,7 +121,7 @@ scanresp <- areaScan(area=edges, radius=3000, types="church", details=FALSE )
 ```
 
 Extract, clean, and have a look at the data...
-```{r}
+```{r message=FALSE, warning=FALSE}
 data <- placesData(scanresp)
 data <- data[!duplicated(data$id),]
 plot(scanresp, ggmap.zoom=12, ncircles=6)
@@ -166,7 +166,7 @@ plot(poly$country, add = TRUE)
 
 
 As a result, we can identify the metropolitan areas/cities, and merge additional information.
-```{r echo=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 cities <- poly$cities
 # plot with labels (taken from https://stackoverflow.com/a/5144951)
 sp.label <- function(x, label) {
@@ -198,9 +198,8 @@ Based on this, we can gather for each city polygon the places of worship with th
 
 The following figure and table illustrate the procedure for the case of the canton of Basel-Stadt (input: polygon of the official cantonal borders).
 
-_TODO: Extend the example with the real procedure, by taking all Swiss cities (or one of the cities) as input_
 
-```{r}
+```{r echo=FALSE,  message=FALSE, warning=FALSE}
 plot(scanresp, ggmap.zoom=12, ncircles=6)
 ```
 The black lines indicate the bounding box of the input polygon (cantonal borders). The blue circles and cross hairs indicate the Nearby Search area/radius and the search coordinates, respectively. The small red circles indicate the search results (for place type `"church"`). The following table shows the details of the first few search results
