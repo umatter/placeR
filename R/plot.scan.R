@@ -98,7 +98,7 @@ plot.scan <-
 
         p <-
           ggplot(mapdata, aes(x=long, y=lat)) +
-          geom_map(map=mapdata, aes(map_id=id), fill="white") +
+          geom_map(map=mapdata, aes(map_id=id), fill="white", colour="black") +
           theme_map() +
           coord_equal() +
           geom_vline(aes(xintercept = x), data=grid.vline, colour=col.grid, alpha=.5) +
