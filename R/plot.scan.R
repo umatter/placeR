@@ -109,7 +109,8 @@ plot.scan <-
           geom_line(aes(x=x, y=y), data= area.edges[1:2,], colour=col.area)+
           geom_line(aes(x=x, y=y), data= area.edges[c(1,3),], colour=col.area)+
           geom_line(aes(x=x, y=y), data= area.edges[c(2,4),], colour=col.area)+
-          geom_line(aes(x=x, y=y), data= area.edges[3:4,], colour=col.area)
+          geom_line(aes(x=x, y=y), data= area.edges[3:4,], colour=col.area) +
+          coord_map()
 
         if (ncircles>0){
 
