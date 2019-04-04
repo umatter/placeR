@@ -54,6 +54,7 @@ getPointsArea <-
 
 
     # 2) compute corresponding coordinates
+    # horizontal: cols
     points.h <- sapply(seq.h, FUN=function(x){
 
       destPointRhumb(a.df[a.df$edges=="t.left", c("x","y")], 90, x)
@@ -61,7 +62,7 @@ getPointsArea <-
     })
     points.h <- data.frame(t(points.h))
     names(points.h) <- c("x","y")
-
+    # vertical: rows
     points.v <- sapply(seq.v, FUN=function(x){
 
       destPointRhumb(a.df[a.df$edges=="t.left", c("x","y")], 180, x)
@@ -69,6 +70,46 @@ getPointsArea <-
     })
     points.v <- data.frame(t(points.v))
     names(points.v) <- c("x","y")
+
+    # check if last circle would cover everything of the right-hand side
+    # that is, is the radius smaller than the distance betwenn the most upper-right search point
+    # and the upper-right edge of the bounding box?
+    ur_searchpoint <- c(points.h[which.max(points.h$x), "x"],
+                        points.v[which.max(points.v$y), "y" ])
+    dist_topright <- gdist(lon.1=ur_searchpoint[1],
+                        lat.1=ur_searchpoint[2],
+                        lon.2=a.df$x[a.df$edges=="t.right"],
+                        lat.2=a.df$y[a.df$edges=="t.right"], units="m")
+
+    if (radius<dist_topright) {
+      addl.point.h <- destPointRhumb(a.df[a.df$edges=="t.left", c("x","y")], 90, seq.h[length(seq.h)]+res_raster)
+      addl.point.h <- data.frame(addl.point.h)
+      names(addl.point.h) <- c("x", "y")
+      points.h <- rbind(points.h, addl.point.h)
+    }
+
+
+
+
+
+    # check if last circle (bottom left) would cover everything of the right-hand side
+    # that is, is the radius smaller than the distance betwenn the most upper-right search point
+    # and the upper-right edge of the bounding box?
+    ur_searchpoint <- c(points.h[which.min(points.h$x), "x"],
+                        points.v[which.min(points.v$y), "y" ])
+    dist_bottomleft <- gdist(lon.1=ur_searchpoint[1],
+                           lat.1=ur_searchpoint[2],
+                           lon.2=a.df$x[a.df$edges=="b.left"],
+                           lat.2=a.df$y[a.df$edges=="b.left"], units="m")
+
+    if (radius<dist_bottomleft) {
+      addl.point.v <- destPointRhumb(a.df[a.df$edges=="t.left", c("x","y")], 180, seq.v[length(seq.v)]+res_raster)
+      addl.point.v <- data.frame(addl.point.v)
+      names(addl.point.v) <- c("x", "y")
+      points.v <- rbind(points.v, addl.point.v)
+    }
+
+
 
     # 3) compute input coordinates for radar search (intersections of gridline coordinates from above)
     search.points <- expand.grid(list(points.h$x,points.v$y))
@@ -125,7 +166,7 @@ getPointsArea <-
     c.dist <- gdist(lon.1=a.df[a.df$edges=="b.left", "x"],
                     lat.1=a.df[a.df$edges=="b.left", "y"],
                     lon.2=a.df[a.df$edges=="t.right", "x"],
-                    lat.2=a.df[a.df$edges=="t.right", "y"],,units="m")
+                    lat.2=a.df[a.df$edges=="t.right", "y"],units="m")
 
     b <- bearingRhumb(p1= as.numeric(a.df[a.df$edges=="b.left",c("x","y")]),
                       p2= as.numeric(a.df[a.df$edges=="t.right",c("x","y")]))
