@@ -5,7 +5,7 @@
 \title{Add City Names
 Matches coordinates (points) of cities to urban center polygons.}
 \usage{
-addCityNames(poly, cities)
+addCityNames(poly, cities, expand=100)
 }
 \arguments{
 \item{poly}{SpatialPolygonsDataFrame object (identifying cities as features)}
@@ -30,7 +30,7 @@ PATH <- "_misc/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0/GHS_SMOD_POP2015_GLOB
 poly <- getCountryCities(PATH, country="ITALY", tol=0.05)
 # load cities from http://worldmap.harvard.edu/data/geonode:placemarks_edited_columns_yz6
 cities <- "_misc/placemarks_edited_columns_yz6/placemarks_edited_columns_yz6.shp"
-italian_cities_named <- addCityNames(poly, cities)
+italian_cities_named <- addCityNames(poly, cities, country="IT")
 }
 \author{
 Ulrich Matter <umatter@protonmail.com>

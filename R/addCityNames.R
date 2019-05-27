@@ -1,6 +1,6 @@
 ##' Add City Names
 ##' Matches coordinates (points) of cities to urban center polygons.
-##' @usage addCityNames(poly, cities)
+##' @usage addCityNames(poly, cities, expand=100)
 ##' @param poly SpatialPolygonsDataFrame object (identifying cities as features)
 ##' @param cities path to shapefile containing official city coordinates
 ##' @param expand numeric, the width to slightly expand the polygon for the overlay (helps in coast regions, where the overlay with points might fail). Defaults to 100.
@@ -13,7 +13,7 @@
 ##' poly <- getCountryCities(PATH, country="ITALY", tol=0.05)
 ##' # load cities from http://worldmap.harvard.edu/data/geonode:placemarks_edited_columns_yz6
 ##' cities <- "_misc/placemarks_edited_columns_yz6/placemarks_edited_columns_yz6.shp"
-##' italian_cities_named <- addCityNames(poly, cities)
+##' italian_cities_named <- addCityNames(poly, cities, country="IT")
 ##' @export
 ##' @import sp rgeos rgdal spatialEco data.table
 ##'
@@ -49,11 +49,12 @@ addCityNames <-
     match_data$asciiname <- as.character(match_data$asciiname)
 
     # add to polygon data
+    # NOTE: need to keep same order of rows!!! (sort==F)
     poly@data <- merge(poly@data,
                        match_data[,-2],
                        by="ID",
                        all.x = TRUE,
-                       all.y = FALSE)
+                       all.y = FALSE, sort=FALSE)
     poly@data <- poly@data[order(poly@data$ID),]
     poly <- poly[!is.na(poly$asciiname),] # only keep matched polygons
 
