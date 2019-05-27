@@ -10,10 +10,10 @@
 ##' @examples
 ##' # first get the cities polygons
 ##' PATH <- "_misc/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0.tif"
-##' poly <- getCountryCities(PATH, country="ITALY", tol=0.05)
+##' poly <- getCountryCities(PATH, country="SWITZERLAND", tol=0.001)
 ##' # load cities from http://worldmap.harvard.edu/data/geonode:placemarks_edited_columns_yz6
 ##' cities <- "_misc/placemarks_edited_columns_yz6/placemarks_edited_columns_yz6.shp"
-##' italian_cities_named <- addCityNames(poly, cities, country="IT")
+##' swiss_cities_named <- addCityNames(poly, cities)
 ##' @export
 ##' @import sp rgeos rgdal spatialEco data.table
 ##'
@@ -50,12 +50,12 @@ addCityNames <-
 
     # add to polygon data
     # NOTE: need to keep same order of rows!!! (sort==F)
-    poly@data <- merge(poly@data,
+    merged_dat <- merge(poly@data,
                        match_data[,-2],
                        by="ID",
                        all.x = TRUE,
                        all.y = FALSE, sort=FALSE)
-    poly@data <- poly@data[order(poly@data$ID),]
+    poly@data <- merged_dat
     poly <- poly[!is.na(poly$asciiname),] # only keep matched polygons
 
     return(poly)
