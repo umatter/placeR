@@ -3,7 +3,7 @@
 \name{addCityNames}
 \alias{addCityNames}
 \title{Add City Names
-Matches coordinates (poins) of cities to urban center polygons.}
+Matches coordinates (points) of cities to urban center polygons.}
 \usage{
 addCityNames(poly, cities)
 }
@@ -19,7 +19,7 @@ SpatialPolygonsDataFrame object
 }
 \description{
 Add City Names
-Matches coordinates (poins) of cities to urban center polygons.
+Matches coordinates (points) of cities to urban center polygons.
 }
 \details{
 Note that if extend is larger than 0, the extension only affects the overlay with city ponits. The returned polygon is not extended.
