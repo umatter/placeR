@@ -32,8 +32,11 @@ the shape of the cities (polygons) as features of one SpatialPolygons object of 
 }
 \examples{
 PATH <- "_misc/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0.tif"
-swiss_cities <- getCountryCities(PATH, country="SWITZERLAND", tol=0.05)
+swiss_cities <- getCountryCities(PATH, country="SWITZERLAND", tol=0.005)
+# contains by default the entire city polygons (also over the country border)
 plot(swiss_cities)
+# only consider parts within country
+plot(swiss_cities[swiss_cities$in_country,])
 }
 \author{
 Ulrich Matter <umatter@protonmail.com>
