@@ -45,7 +45,7 @@ areaScan <-
       }
 
       # get all search locations for all areas
-      points <- getAllPointsArea(edges, radius = radius)
+      points <- getAllPointsArea(area, radius = radius)
       locs <- locations(points)
       names(locs) <- 1:length(locs)
       # stack locations
