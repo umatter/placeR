@@ -24,10 +24,10 @@
 ##' # extract map edges for two cantons
 ##' edges <- getAllEdges(list(cantons[1,], cantons[2,]))
 ##' # plot search area
-##' area <- getAllPointsArea(edges, radius=8000)
+##' area <- getAllPointsArea(edges, radius=20000)
 ##' plot(area[[1]])
 ##' plot(area[[2]])
-##' scanresp <- areaScan(area=edges, radius=8000, types="church", details=FALSE )
+##' scanresp <- areaScan(area=edges,radius=20000, types="church",details=FALSE, random=TRUE, random_breaks=c(0,0.3))
 ##' data <- placesData(scanresp)
 ##' data <- data[!duplicated(data$id),]
 ##' View(data)
