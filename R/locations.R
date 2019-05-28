@@ -27,5 +27,19 @@ locations <-
 
   }
 
+##' Get Locations Vector
+##'
+##' Takes a list of objects of class locations as an input and returns
+##' the lng/lat-locations-vector of the object's search slot
+##' @usage locations(x)
+##' @param x a list of objects of class location
+##' @return character vector with coordinate strings
+##' @details
+##' The vectorized version of locations().
+##' a function that takes an object of class locations as an input and returns
+##' the lng/lat-locations-vector of the object's search slot.
+##' @author Ulrich Matter <umatter@protonmail.com>
+##' @export
+##'
 locations <- Vectorize(locations, SIMPLIFY = TRUE)
 

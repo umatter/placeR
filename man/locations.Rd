@@ -5,21 +5,36 @@
 \title{Get Locations Vector}
 \usage{
 locations(x)
+
+locations(x)
 }
 \arguments{
 \item{x}{object of class location}
+
+\item{x}{a list of objects of class location}
 }
 \value{
+character vector with coordinate strings
+
 character vector with coordinate strings
 }
 \description{
 Takes an object of class locations as an input and returns
 the lng/lat-locations-vector of the object's search slot
+
+Takes a list of objects of class locations as an input and returns
+the lng/lat-locations-vector of the object's search slot
 }
 \details{
 a function that takes an object of class locations as an input and returns
 the lng/lat-locations-vector of the object's search slot.
+
+The vectorized version of locations().
+a function that takes an object of class locations as an input and returns
+the lng/lat-locations-vector of the object's search slot.
 }
 \author{
+Ulrich Matter <umatter@protonmail.com>
+
 Ulrich Matter <umatter@protonmail.com>
 }

@@ -199,5 +199,29 @@ getPointsArea <-
     return(resp)
   }
 
+
+##' Get Cell Centers of large Area
+##'
+##' Divides an area into cells of the size with the diagonal
+##' and returns the lng/lat coordinates of the cells' center
+##' @usage getAllPointsArea(area, radius)
+##' @param area a list of  data.frames containing two lng/lat points
+##' @param radius numeric, the radius of the individual search areas
+##' @return a list of objects of class "locations"
+##' @details
+##' The vectorized version of getPointsArea().
+##' A function that divides an area (defined by two lng/lat points) into cells of the size with the diagonal
+##' twice the given radius (in meters)  and returns the lng/lat coordinates of the cells' center
+##' area: a 2x2 data frame containing the x-coordinates (long) of two points in the first column and the
+##' y-coordinates (lat) in the second column.
+##' The function returns an object of class "locations" (see classes_methods.R) containing
+##' the lng/lat coordinates as well as additional data for print- and plot methods for location objects.
+##' @author Ulrich Matter <umatter@protonmail.com>
+##' @examples
+##' # example:
+##' r2squareSide(5)
+##' @export
+##' @import Imap geosphere
+##'
 getAllPointsArea <- Vectorize(getPointsArea, SIMPLIFY = FALSE)
 
