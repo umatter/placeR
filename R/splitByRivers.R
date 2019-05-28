@@ -4,7 +4,7 @@
 ##' @param country character, name of the country according to GADM database, or an object of class "SpatialPolygons"
 ##' @param rivers path to shapefile containing official river coordinates
 ##' @return SpatialPolygonsDataFrame object
-##' @details ...
+##' @details For each subgeometry an additional id (sub_id) is added to the data-frame. The
 ##' @author Ulrich Matter <umatter@protonmail.com>
 ##' @examples
 ##' PATH <- "_misc/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0.tif"
@@ -36,12 +36,22 @@ splitByRivers <-
         # create polygon buffer of the intersected line
         polbuffer <- suppressWarnings(gBuffer(river_intersect, width = 0.000001)) # warning should not matter if zoomed in that much
         # split the city polygons by rivers
-        cities_split <- gDifference(city_pol, polbuffer)
+        city_split <- gDifference(city_pol, polbuffer)
         # replace city polygon with splitted city polygon
-        cities@polygons[i] <- cities_split@polygons
+        cities@polygons[i] <- city_split@polygons
       }
 
     }
+
+    # replace city polygons with subgeometries
+    cities <- disaggregate(cities)
+    # add subgeometries ID
+    cities@data$sub_id <- NA
+    for (i in unique(cities$ID)){
+      cities@data[cities@data$ID==i,]$sub_id <- paste0(i, ".", 1:nrow(cities@data[cities@data$ID==i,]))
+    }
+
+
     return(cities)
   }
 

@@ -20,7 +20,7 @@ Split City Polygon By Rivers
 Adds for each city polygon a layer with sub-polygons that are divided by rivers crossing the city
 }
 \details{
-...
+For each subgeometry an additional id (sub_id) is added to the data-frame. The
 }
 \examples{
 PATH <- "_misc/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0.tif"
