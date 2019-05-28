@@ -20,7 +20,7 @@
 ##' @author Ulrich Matter <umatter@protonmail.com>
 ##' @examples
 ##' example (taken from google developers):
-##' searchNearby(location="-33.8670522,151.1957362", rankby="distance", types="food", name="harbour")
+##' searchNearby(location="-33.8670522,151.1957362", types="food", radius=5000)
 ##' @export
 ##'
 

@@ -25,7 +25,9 @@ extractJson <-
                            lng=r[["geometry"]][["location"]][["lng"]],
                            vicinity=r[["vicinity"]],
                            types=paste(r[["types"]], collapse=" "),
-                           reference=r[["reference"]], stringsAsFactors=FALSE )   # could be extended with photos etc.
+                           reference=r[["reference"]],
+                           query_url=r[["query_url"]],
+                           stringsAsFactors=FALSE )   # could be extended with photos etc.
 
         return(r.df)
 
