@@ -199,3 +199,5 @@ getPointsArea <-
     return(resp)
   }
 
+getAllPointsArea <- Vectorize(getPointsArea, SIMPLIFY = FALSE)
+

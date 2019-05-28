@@ -26,3 +26,6 @@ locations <-
 
 
   }
+
+locations <- Vectorize(locations, SIMPLIFY = TRUE)
+

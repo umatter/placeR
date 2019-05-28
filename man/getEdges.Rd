@@ -18,16 +18,18 @@ the function returns an object of class placesearch, containing the search resul
 Returns a 2x2 data frame containing the two extreme points (edges) of the polygon.
 }
 \details{
+getAllEdges is the vectorized version
 Given a map object of class Polygon, Polygons, SpatialLinesDataFrame, SpatialPolygons, or SpatialPolygonsDataFrame
 the function returns a 2x2 data frame containing the two extreme points (edges) of the polygon with the x-coordinates (long)  in the first column and the
 y-coordinates (lat) in the second column. This is used as input for a area search. (instead of manually providing such a data.frame)
 }
 \examples{
 # example:
-cantons <- url("http://gadm.org/data/rda/CHE_adm1.RData")
-print(load(cantons))
-ag <- gadm[gadm$NAME_1=="Aargau",]
+cantons <- readRDS(url("https://biogeo.ucdavis.edu/data/gadm3.6/Rsp/gadm36_CHE_1_sp.rds"))
+ag <- cantons[cantons$NAME_1=="Aargau",]
 edges <- getEdges(x=ag, zoomfactor=1.01)
+several_cantons <- list(cantons[1,], cantons[2,])
+several_edges <- getAllEdges(several_cantons)
 }
 \author{
 Ulrich Matter <umatter@protonmail.com>
