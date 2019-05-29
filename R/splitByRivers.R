@@ -28,7 +28,7 @@ splitByRivers <-
       # extract the city polygons
       city_pol <- SpatialPolygons(cities@polygons[i], proj4string = CRS(proj4string(cities)))
       # intersect the river-lines with the river lines
-      river_intersect <- gIntersection(city_pol, cty_rivers)
+      river_intersect <- gIntersection(city_pol, rivers)
 
       # replace city polygon if it was split by rivers otherwhise keep original city polygon
       if (!is.null(river_intersect)) {
