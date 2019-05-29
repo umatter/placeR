@@ -51,7 +51,7 @@ addCityNames <-
     # add to polygon data
     # NOTE: need to keep same order of rows!!! (sort==F)
     merged_dat <- merge(poly@data,
-                       match_data[,-2],
+                       match_data[,-2:-3],
                        by="ID",
                        all.x = TRUE,
                        all.y = FALSE, sort=FALSE)
