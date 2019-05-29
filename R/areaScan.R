@@ -83,12 +83,15 @@ areaScan <-
 
         # stack results
         refs <- do.call("rbind", refs_list)
+        refs <- refs[refs$status=="OK",] # only keep those responses with results
 
 
       } else {
         refs <- placesData(searchNearby(location=all_locs_df$loc,
                                         radius=radius,
                                         types=types))
+        refs <- refs[refs$status=="OK",] # only keep those responses with results
+
 
       }
 
@@ -99,7 +102,7 @@ areaScan <-
                                 }
       ))
       # merge with the location ids to link with search areas
-      refs <- merge(refs, all_locs_df, all.x=TRUE, all.y=FALSE)
+      refs <- merge(refs, all_locs_df, all=TRUE)
 
       # create and return scan object for each of the areas
       n_areas <- length(area)
@@ -114,7 +117,7 @@ areaScan <-
       if (n_areas > 1) {
         return(scanresp_list)
       } else {
-        scanresp_list[[1]]
+        return(scanresp_list[[1]])
       }
 
 
