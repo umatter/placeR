@@ -31,7 +31,7 @@ searchNearby <-
 
     urls <- generateParametersNearby(location, radius, sensor, keyword, language, name, rankby, types)
 
-    responses <- searchRequestNearby(url.list=urls)
+    responses <- searchRequestNearby(url.list=unlist(urls))
 
     results.df <- extractResults(responses)
     parameters.df <- data.frame(location=unlist(location), radius=radius, sensor=sensor,

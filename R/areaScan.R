@@ -70,7 +70,7 @@ areaScan <-
         length(refs_list) <- n_locs
         # iterate over locs with random breaks in between
         for (i in 1:n_locs) {
-          loc.i <- all_locs_df$loc[i]
+          loc.i <- as.character(all_locs_df$loc[i])
           # issue query
           refs_list[[i]] <- placesData(searchNearby(location = loc.i,
                                          radius = radius,
