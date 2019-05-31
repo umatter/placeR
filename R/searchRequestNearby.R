@@ -18,6 +18,7 @@ searchRequestNearby <-
       if (!http_error(.url)) {
 
         response <- GET(url=.url) #GET the response as response-object (httr), maybe add later: , user_agent("GooglePlaceR")
+        message(paste0(.url, " requested...\n"))
         cont <- content(response, as="parsed") #parse the content (should automatically recognize json and parse it)
         # add query url
         cont$results <- lapply(cont$results, function(x) {
@@ -38,6 +39,7 @@ searchRequestNearby <-
 
           npt <- cont[[npt.index]]
           response <- GET(url=paste(.url,"&pagetoken=",npt,sep=""))
+          message(paste0(paste(.url,"&pagetoken=",npt,sep=""), " requested...\n"))
           cont <- content(response, as="parsed") #parse the content (should automatically recognize json and parse it)
           # add query url
           cont$results <- lapply(cont$results, function(x) {
