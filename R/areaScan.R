@@ -55,6 +55,7 @@ areaScan <-
                                 loc_id = substr(names(all_locs),
                                                  start = 1,
                                                  stop = 1))
+      names(all_locs_df) <- c("loc", "loc_id")
       row.names(all_locs_df) <- NULL
       # randomize order if necessary
       if (random==TRUE) {
