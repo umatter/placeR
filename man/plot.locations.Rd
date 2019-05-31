@@ -12,6 +12,8 @@ locations(x)
 \item{ggmap.zoom}{integer, zoom parameter for ggmap output}
 
 \item{ncircles}{integer, the number of circles to be plotted (centered around search area, defaults to 1)}
+
+\item{googlemap}{logical, if TRUE, plots google map as background. Defaults to TRUE.}
 }
 \value{
 NULL (output is plotted)
