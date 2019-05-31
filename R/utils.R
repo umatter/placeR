@@ -9,6 +9,17 @@ generateURL <-
     return(url)
   }
 
+# area centroid
+# x, area (such as in getPointsArea)
+area_centroid <-
+  function(x){
+    distx <- max(x$x) - min(x$x)
+    disty <- max(x$y) - min(x$y)
+    cent_x <- min(x$x) + distx/2
+    cent_y <- min(x$y) + disty/2
+
+    return(data.frame(x=cent_x, y=cent_y))
+  }
 
 # generateParameters: takes parameter values and combines them in order to use them as inputs for generateURL
 # all parameters according to https://developers.google.com/places/documentation/search

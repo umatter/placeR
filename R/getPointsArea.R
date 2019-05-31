@@ -48,72 +48,83 @@ getPointsArea <-
     # compute raster (starting with upper left edge on map)
 
     # 1) compute distances to each of the (inner) gridlines on long (h) and lat (v) axis
-    # starting from the upper left edge (point A)
-    seq.h <- seq(from=res_raster/2, to=distance.h, by=res_raster)
-    seq.v <- seq(from=res_raster/2, to=distance.v, by=res_raster)
+    # starting from the upper left edge (point A); unless the area is too small.
+    # if the area is too small (given the radius), simply compute the central point
+    # of the area
+    if (distance.h < res_raster/2 | distance.v < res_raster/2){
+      # too small? compute the central point as only search point
+      search.points <- area_centroid(area)
+
+    } else {
+      seq.h <- seq(from=res_raster/2, to=distance.h, by=res_raster)
+      seq.v <- seq(from=res_raster/2, to=distance.v, by=res_raster)
+
+      # 2) compute corresponding coordinates
+      # horizontal: cols
+      points.h <- sapply(seq.h, FUN=function(x){
+
+        destPointRhumb(a.df[a.df$edges=="t.left", c("x","y")], 90, x)
+
+      })
+      points.h <- data.frame(t(points.h))
+      names(points.h) <- c("x","y")
+      # vertical: rows
+      points.v <- sapply(seq.v, FUN=function(x){
+
+        destPointRhumb(a.df[a.df$edges=="t.left", c("x","y")], 180, x)
+
+      })
+      points.v <- data.frame(t(points.v))
+      names(points.v) <- c("x","y")
+
+      # check if last circle would cover everything of the right-hand side
+      # that is, is the radius smaller than the distance betwenn the most upper-right search point
+      # and the upper-right edge of the bounding box?
+      ur_searchpoint <- c(points.h[which.max(points.h$x), "x"],
+                          points.v[which.max(points.v$y), "y" ])
+      dist_topright <- gdist(lon.1=ur_searchpoint[1],
+                             lat.1=ur_searchpoint[2],
+                             lon.2=a.df$x[a.df$edges=="t.right"],
+                             lat.2=a.df$y[a.df$edges=="t.right"], units="m")
+
+      if (radius<dist_topright) {
+        addl.point.h <- destPointRhumb(a.df[a.df$edges=="t.left", c("x","y")], 90, seq.h[length(seq.h)]+res_raster)
+        addl.point.h <- data.frame(addl.point.h)
+        names(addl.point.h) <- c("x", "y")
+        points.h <- rbind(points.h, addl.point.h)
+      }
 
 
-    # 2) compute corresponding coordinates
-    # horizontal: cols
-    points.h <- sapply(seq.h, FUN=function(x){
 
-      destPointRhumb(a.df[a.df$edges=="t.left", c("x","y")], 90, x)
 
-    })
-    points.h <- data.frame(t(points.h))
-    names(points.h) <- c("x","y")
-    # vertical: rows
-    points.v <- sapply(seq.v, FUN=function(x){
 
-      destPointRhumb(a.df[a.df$edges=="t.left", c("x","y")], 180, x)
+      # check if last circle (bottom left) would cover everything of the right-hand side
+      # that is, is the radius smaller than the distance betwenn the most upper-right search point
+      # and the upper-right edge of the bounding box?
+      ur_searchpoint <- c(points.h[which.min(points.h$x), "x"],
+                          points.v[which.min(points.v$y), "y" ])
+      dist_bottomleft <- gdist(lon.1=ur_searchpoint[1],
+                               lat.1=ur_searchpoint[2],
+                               lon.2=a.df$x[a.df$edges=="b.left"],
+                               lat.2=a.df$y[a.df$edges=="b.left"], units="m")
 
-    })
-    points.v <- data.frame(t(points.v))
-    names(points.v) <- c("x","y")
+      if (radius<dist_bottomleft) {
+        addl.point.v <- destPointRhumb(a.df[a.df$edges=="t.left", c("x","y")], 180, seq.v[length(seq.v)]+res_raster)
+        addl.point.v <- data.frame(addl.point.v)
+        names(addl.point.v) <- c("x", "y")
+        points.v <- rbind(points.v, addl.point.v)
+      }
 
-    # check if last circle would cover everything of the right-hand side
-    # that is, is the radius smaller than the distance betwenn the most upper-right search point
-    # and the upper-right edge of the bounding box?
-    ur_searchpoint <- c(points.h[which.max(points.h$x), "x"],
-                        points.v[which.max(points.v$y), "y" ])
-    dist_topright <- gdist(lon.1=ur_searchpoint[1],
-                        lat.1=ur_searchpoint[2],
-                        lon.2=a.df$x[a.df$edges=="t.right"],
-                        lat.2=a.df$y[a.df$edges=="t.right"], units="m")
 
-    if (radius<dist_topright) {
-      addl.point.h <- destPointRhumb(a.df[a.df$edges=="t.left", c("x","y")], 90, seq.h[length(seq.h)]+res_raster)
-      addl.point.h <- data.frame(addl.point.h)
-      names(addl.point.h) <- c("x", "y")
-      points.h <- rbind(points.h, addl.point.h)
+
+      # 3) compute input coordinates for radar search (intersections of gridline coordinates from above)
+      search.points <- expand.grid(list(points.h$x,points.v$y))
+      names(search.points) <- c("x", "y")
+
+
     }
 
 
-
-
-
-    # check if last circle (bottom left) would cover everything of the right-hand side
-    # that is, is the radius smaller than the distance betwenn the most upper-right search point
-    # and the upper-right edge of the bounding box?
-    ur_searchpoint <- c(points.h[which.min(points.h$x), "x"],
-                        points.v[which.min(points.v$y), "y" ])
-    dist_bottomleft <- gdist(lon.1=ur_searchpoint[1],
-                           lat.1=ur_searchpoint[2],
-                           lon.2=a.df$x[a.df$edges=="b.left"],
-                           lat.2=a.df$y[a.df$edges=="b.left"], units="m")
-
-    if (radius<dist_bottomleft) {
-      addl.point.v <- destPointRhumb(a.df[a.df$edges=="t.left", c("x","y")], 180, seq.v[length(seq.v)]+res_raster)
-      addl.point.v <- data.frame(addl.point.v)
-      names(addl.point.v) <- c("x", "y")
-      points.v <- rbind(points.v, addl.point.v)
-    }
-
-
-
-    # 3) compute input coordinates for radar search (intersections of gridline coordinates from above)
-    search.points <- expand.grid(list(points.h$x,points.v$y))
-    names(search.points) <- c("x", "y")
 
 
     # format for radarSearch, keep search.points for illustration
