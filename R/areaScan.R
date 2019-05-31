@@ -33,6 +33,7 @@
 ##' View(data)
 ##' @export
 ##' @importFrom httr parse_url
+##' @import data.table
 
 
 areaScan <-
@@ -72,9 +73,9 @@ areaScan <-
         for (i in 1:n_locs) {
           loc.i <- as.character(all_locs_df$loc[i])
           # issue query
-          refs_list[[i]] <- placesData(searchNearby(location = loc.i,
+          refs_list[[i]] <- as.data.table(placesData(searchNearby(location = loc.i,
                                          radius = radius,
-                                         types = types))
+                                         types = types)))
           # take a random break
           Sys.sleep(runif(1,
                           min = random_breaks[1],
@@ -82,14 +83,14 @@ areaScan <-
         }
 
         # stack results
-        refs <- do.call("rbind", refs_list)
+        refs <- rbindlist(refs_list, use.names = TRUE, fill = TRUE)
         refs <- refs[refs$status=="OK",] # only keep those responses with results
 
 
       } else {
-        refs <- placesData(searchNearby(location=all_locs_df$loc,
+        refs <- as.data.table(placesData(searchNearby(location=all_locs_df$loc,
                                         radius=radius,
-                                        types=types))
+                                        types=types)))
         refs <- refs[refs$status=="OK",] # only keep those responses with results
 
 
