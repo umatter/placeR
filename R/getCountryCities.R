@@ -35,6 +35,12 @@
 getCountryCities <-
   function(r, country, sub_country = NULL, sub_country_var = NULL, min_value = 3, tol=0.05, intermediate = FALSE){
 
+    if (is.null(sub_country) & is.null(sub_country_var)){
+      cty_level <- 0
+    } else {
+      cty_level <- 1
+    }
+
     # ensure correct input: r
     if (class(r)[1]=="character") {
       if (file.exists(r)){
@@ -52,7 +58,7 @@ getCountryCities <-
       tempd <- tempdir()
       cty <- getData("GADM",
                      country=country,
-                     level=0,
+                     level=cty_level,
                      path = tempd)
     } else {
       cty <- country
