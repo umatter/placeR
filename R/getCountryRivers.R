@@ -33,7 +33,7 @@ getCountryRivers <-
     }
     stopifnot(class(rivers)[1]=="SpatialLinesDataFrame")
 
-    if (class(country)[1]!="SpatialPolygons") {
+    if (class(country)[1]!="SpatialPolygons" & class(country)[1]!="SpatialPolygonsDataFrame") {
 
       # import country shape from GADM via temporary file
       message("Importing country shapefile...\n")
@@ -45,6 +45,8 @@ getCountryRivers <-
       #file_path <- list.files(tempd)
       #unlink(tempd, recursive = TRUE)
 
+    } else {
+      cty <- country
     }
     stopifnot(class(cty)[1]=="SpatialPolygonsDataFrame")
 
