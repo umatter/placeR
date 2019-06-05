@@ -33,7 +33,8 @@
 
 
 getCountryCities <-
-  function(r, country, sub_country = NULL, sub_country_var = NULL, min_value = 3, tol=0.05, intermediate = FALSE){
+  function(r, country, sub_country = NULL, sub_country_var = NULL,
+           min_value = 3, tol=0.05, intermediate = FALSE){
 
     if (is.null(sub_country) & is.null(sub_country_var)){
       cty_level <- 0
@@ -67,7 +68,7 @@ getCountryCities <-
 
     # select sub-national unit to process (if indicated)
     if (!is.null(sub_country) & !is.null(sub_country_var)) {
-      cty <- cty[cty[,sub_country_var]==sub_country,]
+      cty <- cty[cty@data[,sub_country_var]==sub_country,]
     }
 
 
