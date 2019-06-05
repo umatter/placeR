@@ -1,8 +1,10 @@
 ##' Get City Polygons of a Country
 ##' Extracts polygon 'city' boundaries from GHS settlement grid raster data
-##' @usage getCountryCities(r, country, min_value = 3, tol=0.1, intermediate=FALSE)
+##' @usage getCountryCities(r, country, sub_country = NULL, sub_country_var = NULL, min_value = 3, tol=0.1, intermediate=FALSE)
 ##' @param r RasterLayer object of imported GHS settlement grid raster file, or path to such a file
-##' @param country character, name of the country according to GADM database
+##' @param country character, name of the country according to GADM database or SpatialPolygonsDataFrame containing the country data
+##' @param sub_country character, name of the subnational unit to select from country (if NULL, the entire country is processed; default: NULL)
+##' @param sub_country_var character, the variable name in country used for the variable that distinguishes subnational units (if NULL, the entire country is processed; default: NULL)
 ##' @param min_value integer, minimum cell value to consider (as 'city', defaults to 3, urban centers)
 ##' @param tol numeric, tolerance value to be used by the Douglas-Peuker algorithm to simplify the country-shapefile, defaults to .1
 ##' @param intermediate logical, if TRUE, intermediate results (raster data and country polygon are returned as well), defaults to FALSE
@@ -31,9 +33,9 @@
 
 
 getCountryCities <-
-  function(r, country, min_value = 3, tol=0.05, intermediate = FALSE){
+  function(r, country, sub_country = NULL, sub_country_var = NULL, min_value = 3, tol=0.05, intermediate = FALSE){
 
-    # ensure correct input
+    # ensure correct input: r
     if (class(r)[1]=="character") {
       if (file.exists(r)){
         rdat <- raster(r)
@@ -43,16 +45,25 @@ getCountryCities <-
     }
     stopifnot(class(rdat)=="RasterLayer")
 
+    # ensure correct input: country
+    if (class(country)[1]=="character") {
+      # import country shape from GADM via temporary file
+      message("Importing country shapefile...\n")
+      tempd <- tempdir()
+      cty <- getData("GADM",
+                     country=country,
+                     level=0,
+                     path = tempd)
+    } else {
+      cty <- country
+    }
+    stopifnot(class(cty)=="SpatialPolygonsDataFrame")
 
-    # import country shape from GADM via temporary file
-    message("Importing country shapefile...\n")
-    tempd <- tempdir()
-    cty <- getData("GADM",
-                   country=country,
-                   level=0,
-                   path = tempd)
-    #file_path <- list.files(tempd)
-    #unlink(tempd, recursive = TRUE)
+    # select sub-national unit to process (if indicated)
+    if (!is.null(sub_country) & !is.null(sub_country_var)) {
+      cty <- cty[cty[,sub_country_var]==sub_country,]
+    }
+
 
     # simplify polygons
     message("Simplifying country shapefile...\n")
