@@ -57,10 +57,8 @@ getCountryRivers <-
 
     # extract the country's part of the river data
     message("Cropping and masking country from river data...\n")
-    r_cty_ext <- crop(rivers, cty)
-    #r_cty <- mask(r_cty_ext, cty_moll)
-    #r_masked <- r_cty # keep for detailed output
-    #r_cty[r_cty < min_value] <- NA # only keep cells with min urban value
+    r_cty_ext <- try(crop(rivers, cty)) # in rare cases crop fails with Error in RGEOSBinTopoFunc(spgeom1, spgeom2, byid, id, drop_lower_td, unaryUnion_if_byid_false,  : Geometry collections may not contain other geometry collections
+
 
     return(r_cty_ext)
 
