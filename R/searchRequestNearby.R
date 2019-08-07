@@ -16,8 +16,13 @@ searchRequestNearby <-
     response.list <- lapply(url.list, FUN=function(.url){
 
       response <- GET(url=.url) #GET the response as response-object (httr), maybe add later: , user_agent("GooglePlaceR")
+      cont <- content(response)
+      if ("status" %in% names(cont)){
+        zero <- cont$status=="ZERO_RESULTS"
+      }
 
-      if (!http_error(.url) & content(response)$status!="ZERO_RESULTS") {
+
+      if (!http_error(.url) & nonzero) {
 
         message(paste0(.url, " requested...\n"))
         cont <- content(response, as="parsed") #parse the content (should automatically recognize json and parse it)
