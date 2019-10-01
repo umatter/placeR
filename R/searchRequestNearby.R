@@ -22,7 +22,7 @@ searchRequestNearby <-
       }
 
 
-      if (!http_error(.url) | !zero) {
+      if (!http_error(response) | !zero) {
 
         message(paste0(.url, " requested...\n"))
         cont <- content(response, as="parsed") #parse the content (should automatically recognize json and parse it)

@@ -16,9 +16,10 @@ searchRequestRadar <-
 
       dlStatus(.url)
 
-      if (!http_error(.url)) {
+      response <- GET(url=.url) #GET the response as response-object (httr), maybe add later: , user_agent("GooglePlaceR")
 
-        response <- GET(url=.url) #GET the response as response-object (httr), maybe add later: , user_agent("GooglePlaceR")
+      if (!http_error(response)) {
+
         cont <- content(response, as="parsed") #parse the content (should automatically recognize json and parse it)
         return(cont)
 
