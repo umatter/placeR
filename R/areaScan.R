@@ -48,6 +48,9 @@ areaScan <-
       # get all search locations for all areas
       points <- getAllPointsArea(area, radius = radius)
       locs <- locations(points)
+      if (class(locs)!="list"){ # robustness for the rare case of only one area
+        locs <- list(locs)
+      }
       names(locs) <- 1:length(locs)
       # stack locations
       all_locs <- unlist(locs)
