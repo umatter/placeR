@@ -91,6 +91,7 @@ getCountryCities <-
     #country_proj <- "+proj=longlat +datum=WGS84"
     r_cty <- projectRaster(r_cty,  crs = country_proj)
     r_cty_ext <- projectRaster(r_cty_ext,  crs = country_proj)
+    r_masked <- projectRaster(r_masked, crs=country_proj)
 
     # convert to polygons
     message("Converting country raster to polygons...\n")
