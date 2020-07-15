@@ -34,6 +34,7 @@ addCityNames <-
     poly2 <- spTransform(x=poly, CRSobj=CRS("+init=epsg:32662"))
     poly2 <- gBuffer(poly2, byid = TRUE, width = expand)
     poly2 <- spTransform(x=poly2, CRSobj=poly@proj4string)
+    cities <- spTransform(x=cities, CRSobj = poly@proj4string) # seems to be necessary on OSX but not on Linux, unclear why
     #cities_points <- SpatialPoints(cities@coords, cities@proj4string)
     match_data <- na.omit(over(cities, poly2))
     points_data <- cities@data[as.numeric(row.names(match_data)),]
