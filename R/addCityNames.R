@@ -29,7 +29,7 @@ addCityNames <-
     }
 
     if (expand=="auto"){
-      expand <- area(bbox2SP(bbox=poly@bbox))/1750000000 # Note: this is based on the Italy example, results in ~500 for Italy, which works well there
+      expand <- area(rgeos::bbox2SP(bbox=poly@bbox))/1750000000 # Note: this is based on the Italy example, results in ~500 for Italy, which works well there
     }
 
     stopifnot(class(cities)=="SpatialPointsDataFrame")
