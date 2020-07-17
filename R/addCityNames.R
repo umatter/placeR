@@ -1,9 +1,9 @@
 ##' Add City Names
 ##' Matches coordinates (points) of cities to urban center polygons.
-##' @usage addCityNames(poly, cities, expand=100)
+##' @usage addCityNames(poly, cities, expand="auto")
 ##' @param poly SpatialPolygonsDataFrame object (identifying cities as features)
 ##' @param cities path to shapefile containing official city coordinates
-##' @param expand numeric, the width to slightly expand the polygon for the overlay (helps in coast regions, where the overlay with points might fail). Defaults to 100.
+##' @param expand numeric or character ("auto"), the width to slightly expand the polygon for the overlay (helps in coast regions, where the overlay with points might fail). Defaults to "auto", the expand is computed based on the total area of the bounding box containing all polygons.
 ##' @return SpatialPolygonsDataFrame object
 ##' @details Note that if extend is larger than 0, the extension only affects the overlay with city ponits. The returned polygon is not extended.
 ##' @author Ulrich Matter <umatter@protonmail.com>
@@ -19,13 +19,17 @@
 ##'
 
 addCityNames <-
-  function(poly, cities, expand=100) {
+  function(poly, cities, expand="auto") {
 
     # ensure correct input
     if (class(cities)[1]=="character") {
       if (file.exists(cities)){
         cities <- readOGR(cities, verbose = FALSE)
       }
+    }
+
+    if (expand=="auto"){
+      expand <- area(bbox2SP(bbox=poly@bbox))/1750000000 # Note: this is based on the Italy example, results in ~500 for Italy, which works well there
     }
 
     stopifnot(class(cities)=="SpatialPointsDataFrame")
