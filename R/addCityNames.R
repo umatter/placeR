@@ -53,6 +53,10 @@ addCityNames <-
     match_data$is_max <- NULL
     match_data$asciiname <- as.character(match_data$asciiname)
 
+    # filter rare cases of duplicate ids
+    match_data <- match_data[!duplicated(match_data$ID)]
+
+
     # add to polygon data
     # NOTE: need to keep same order of rows!!! (sort==F)
     poly@data$order <- 1:nrow(poly@data)
