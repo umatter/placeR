@@ -15,7 +15,17 @@ searchRequestNearby <-
 
     response.list <- lapply(url.list, FUN=function(.url){
 
-      response <- GET(url=.url) #GET the response as response-object (httr), maybe add later: , user_agent("GooglePlaceR")
+      response <- try(GET(url=.url, config = config(http_version = 0)),
+                      silent = TRUE) #GET the response as response-object (httr), maybe add later: , user_agent("GooglePlaceR")
+      trials_left <- 5
+      while(class(response)[1]=="try-error" & 0 < trials_left ) {
+        message("Error occurred while fetching data from API, let's take a short break and try it again!\n")
+        Sys.sleep(2)
+        response <- try(GET(url=.url, config = config(http_version = 0)))
+        trials_left <- trials_left-1
+
+      }
+
       cont <- content(response)
       if ("status" %in% names(cont)){
         zero <- cont$status=="ZERO_RESULTS"
