@@ -26,6 +26,9 @@ searchRequestNearby <-
 
       }
 
+
+    if (class(response)[1]!="try-error"){
+
       cont <- content(response)
       if ("status" %in% names(cont)){
         zero <- cont$status=="ZERO_RESULTS"
@@ -81,9 +84,15 @@ searchRequestNearby <-
 
       }
 
+    } else {
+      return("error")
+    }
 
-    })
+
+
+
+  })
 
     return(unlist(response.list, recursive=FALSE)) # possibly an alternative: redlist
 
-  }
+    }
