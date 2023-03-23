@@ -5,14 +5,14 @@
 \title{Add City Names
 Matches coordinates (points) of cities to urban center polygons.}
 \usage{
-addCityNames(poly, cities, expand=100)
+addCityNames(poly, cities, expand="auto")
 }
 \arguments{
 \item{poly}{SpatialPolygonsDataFrame object (identifying cities as features)}
 
 \item{cities}{path to shapefile containing official city coordinates}
 
-\item{expand}{numeric, the width to slightly expand the polygon for the overlay (helps in coast regions, where the overlay with points might fail). Defaults to 100.}
+\item{expand}{numeric or character ("auto"), the width to slightly expand the polygon for the overlay (helps in coast regions, where the overlay with points might fail). Defaults to "auto", the expand is computed based on the total area of the bounding box containing all polygons.}
 }
 \value{
 SpatialPolygonsDataFrame object

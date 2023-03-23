@@ -5,12 +5,16 @@
 \title{Get City Polygons of a Country
 Extracts polygon 'city' boundaries from GHS settlement grid raster data}
 \usage{
-getCountryCities(r, country, min_value = 3, tol=0.1, intermediate=FALSE)
+getCountryCities(r, country, sub_country = NULL, sub_country_var = NULL, min_value = 3, tol=0.1, intermediate=FALSE)
 }
 \arguments{
 \item{r}{RasterLayer object of imported GHS settlement grid raster file, or path to such a file}
 
-\item{country}{character, name of the country according to GADM database}
+\item{country}{character, name of the country according to GADM database or SpatialPolygonsDataFrame containing the country data}
+
+\item{sub_country}{character, name of the subnational unit to select from country (if NULL, the entire country is processed; default: NULL)}
+
+\item{sub_country_var}{character, the variable name in country used for the variable that distinguishes subnational units (if NULL, the entire country is processed; default: NULL)}
 
 \item{min_value}{integer, minimum cell value to consider (as 'city', defaults to 3, urban centers)}
 

@@ -19,8 +19,6 @@ plot.placedetails(x, ggmap.zoom="auto", ncircles=1, col.grid="white", col.loc="#
 
 \item{col.area}{character, the color of the rectangle indicating the search area (in hexadecimal or name of R-color; default: "#6b3a70")}
 
-\item{col.search}{character, the color of the search area center (in hexadecimal or name of R-color; default: "#4db0d9")}
-
 \item{col.search}{character, the color of the circles indicating the search radius (in hexadecimal or name of R-color; default: "#4db0d9")}
 }
 \value{

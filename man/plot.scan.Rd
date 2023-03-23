@@ -19,11 +19,9 @@ plot.scan(x, ggmap.zoom=7, ncircles=1, col.grid="white", col.loc="#e55562", col.
 
 \item{col.area}{character, the color of the rectangle indicating the search area (in hexadecimal or name of R-color; default: "#6b3a70")}
 
-\item{col.search}{character, the color of the search area center (in hexadecimal or name of R-color; default: "#4db0d9")}
+\item{col.search}{character, the color of the circles indicating the search radius (in hexadecimal or name of R-color; default: "#4db0d9")}
 
 \item{poly.map}{spatialPolygonDataframe (optional), map data as basis for the plot. If empty (NULL), the function plots a google map as basis.}
-
-\item{col.search}{character, the color of the circles indicating the search radius (in hexadecimal or name of R-color; default: "#4db0d9")}
 }
 \value{
 a ggplot object

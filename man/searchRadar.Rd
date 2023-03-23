@@ -4,8 +4,14 @@
 \alias{searchRadar}
 \title{Search Large Areas}
 \usage{
-searchRadar(location, sensor = "false", types = NULL, saveDL = FALSE,
-  chunksize = 10, pause = 0)
+searchRadar(
+  location,
+  sensor = "false",
+  types = NULL,
+  saveDL = FALSE,
+  chunksize = 10,
+  pause = 0
+)
 }
 \arguments{
 \item{location}{character, containing the coordinates (long/lat separated by a comma) of where the map search shall be executed}

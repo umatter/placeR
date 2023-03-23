@@ -4,8 +4,16 @@
 \alias{searchNearby}
 \title{Search Nearby}
 \usage{
-searchNearby(location, radius, sensor = "false", keyword = NULL,
-  language = NULL, name = NULL, rankby = NULL, types = NULL)
+searchNearby(
+  location,
+  radius,
+  sensor = "false",
+  keyword = NULL,
+  language = NULL,
+  name = NULL,
+  rankby = NULL,
+  types = NULL
+)
 }
 \arguments{
 \item{location}{character, containing the coordinates (long/lat separated by a comma) of where the map search shall be executed}

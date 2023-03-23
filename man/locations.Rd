@@ -9,8 +9,6 @@ locations(x)
 locations(x)
 }
 \arguments{
-\item{x}{object of class location}
-
 \item{x}{a list of objects of class location}
 }
 \value{
@@ -34,7 +32,5 @@ a function that takes an object of class locations as an input and returns
 the lng/lat-locations-vector of the object's search slot.
 }
 \author{
-Ulrich Matter <umatter@protonmail.com>
-
 Ulrich Matter <umatter@protonmail.com>
 }
