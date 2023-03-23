@@ -19,3 +19,7 @@ VignetteBuilder: knitr
 Imports: 
     data.table,
     spatialEco
+Remotes:
+    John-R-Wallace-NOAA/Imap
+    valentinitnelav/geobuffer
+URL: https://umatter.github.io/placeR/
