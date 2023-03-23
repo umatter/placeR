@@ -18,7 +18,11 @@ VignetteBuilder: knitr
 Imports: 
     data.table,
     spatialEco,
-    Imap
+    Imap,
+    geobuffer,
+    sp,
+    rgeos,
+    rgdal
 Remotes:
     John-R-Wallace-NOAA/Imap@master,
     valentinitnelav/geobuffer
