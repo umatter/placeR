@@ -1,0 +1,122 @@
+---
+title: "get_started"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{get_started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+## Set Up
+
+Installation:
+```{r message=FALSE, warning=FALSE}
+devtools::install_github("umatter/placeR")
+```
+
+The package's request functions expect a variable `api.key` with the Google Places API Key stored in it in the global environment.
+```{r message=FALSE, warning=FALSE}
+api.key <- readLines("_misc/key")[1]
+```
+
+
+## Example of simple searches
+
+### Search Restaurants in New York
+
+Search restaurants in a given radius around specific coordinates with `searchNearby()`.
+```{r message=FALSE, warning=FALSE}
+nyrest <- searchNearby(location="40.7,-74.0", radius=5000, types="restaurant")
+```
+
+Inspect the results. The formatted data can be extracted via `placesData()`. 
+```{r message=FALSE, warning=FALSE}
+# check the class of the returned object
+class(nyrest)
+
+# extract and inspect data
+ny <- placesData(nyrest)
+dim(ny)
+str(ny)
+ny[1:3,1:4]
+```
+
+Or we can plot the results via the plot method for objects of class "`placesearch`":
+```{r message=FALSE, warning=FALSE}
+library(ggmap)
+register_google(api.key)
+plot(nyrest, ggmap.zoom=12)
+```
+
+## Large area searches
+
+### Detailed example, step by step
+
+Define the search parameters. Two points (coordinates) define the bounding box.
+```{r message=FALSE, warning=FALSE}
+sa <- c(5.5, 11, 45.5, 48)
+a.df <- as.data.frame(matrix(data=sa, nrow=2, ncol=2))
+names(a.df) <- c("x","y")
+```
+
+Set the radius of each individual radar search
+```{r message=FALSE, warning=FALSE}
+r=50000
+```
+
+Compute search points for searchRadar. That is, at which points of the overall area should a radar search be executed.
+```{r message=FALSE, warning=FALSE}
+sdlpoints <- getPointsArea(area=a.df, radius=r)
+sdllocs <- locations(sdlpoints)
+```
+
+
+
+### Example preparation of areaScan
+```{r message=FALSE, warning=FALSE}
+# example of search: scan all switzerland
+library(sp)
+cantons <- readRDS(url("https://biogeo.ucdavis.edu/data/gadm3.6/Rsp/gadm36_CHE_1_sp.rds")) 
+
+# extract map edges
+edges <- getEdges(x=cantons) 
+
+# plot search area
+area <- getPointsArea(edges, radius=20000)
+plot(area)
+```
+
+
+### Extended example to demonstrate areaScan
+The goal of the exercise is to get information on 'all' churches in a canton.
+
+First, load the respective shapefile with the Swiss administrative borders and select one canton.
+```{r message=FALSE, warning=FALSE}
+bs <- cantons[cantons$NAME_1=="Basel-Stadt",] 
+```
+
+Run the area scan. Note that due to the depriciation of the API's radar search function, the results are restricted to 20 (60 if going to next page).
+```{r message=FALSE, warning=FALSE}
+# extract map edges
+edges <- getEdges(x=bs) 
+# run the scan
+scanresp <- areaScan(area=edges, radius=3000, types="church", details=FALSE )
+```
+
+Extract, clean, and have a look at the data...
+```{r message=FALSE, warning=FALSE}
+data <- placesData(scanresp)
+data <- data[!duplicated(data$id),]
+plot(scanresp, ggmap.zoom=12, ncircles=6)
+```
+
+
+
