@@ -15,7 +15,7 @@
 ##' cty_rivers <- getCountryRivers(rivers = rivers, country = "SWITZERLAND", tol=0.05)
 ##' cities2 <- splitByRivers(cities, cty_rivers)
 ##' @export
-##' @import sp rgeos rgdal spatialEco data.table geobuffer
+##' @import sp rgeos rgdal data.table geobuffer
 ##'
 
 

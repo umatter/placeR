@@ -15,7 +15,7 @@
 ##' cities <- "_misc/placemarks_edited_columns_yz6/placemarks_edited_columns_yz6.shp"
 ##' swiss_cities_named <- addCityNames(poly, cities)
 ##' @export
-##' @import sp rgeos rgdal spatialEco data.table
+##' @import sp rgeos rgdal data.table
 ##'
 
 addCityNames <-
