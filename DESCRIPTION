@@ -22,7 +22,8 @@ Imports:
     geobuffer,
     sp,
     rgeos,
-    rgdal
+    rgdal,
+    ggmap
 Remotes:
     John-R-Wallace-NOAA/Imap@master,
     valentinitnelav/geobuffer
