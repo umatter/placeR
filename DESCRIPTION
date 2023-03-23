@@ -23,7 +23,12 @@ Imports:
     sp,
     rgeos,
     rgdal,
-    ggmap
+    ggmap,
+    ggplot2,
+    ggthemes,
+    httr,
+    raster,
+    geosphere
 Remotes:
     John-R-Wallace-NOAA/Imap@master,
     valentinitnelav/geobuffer
