@@ -5,7 +5,7 @@
 [![Experimental](https://img.shields.io/badge/status-experimental-orange)](https://github.com/umatter/placeR)
 <!-- badges: end -->
 
-The goal of placeR is to ...
+A package to easily search and retrieve data from the Google Places API.
 
 ## Installation
 
