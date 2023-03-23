@@ -1,12 +1,11 @@
 Package: placeR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Easily Search and Retrieve Data From the Google Places API
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Ulrich Matter
+Maintainer: Ulrich Matter <umatter@protonmail.com>
+Description: A package to easily search and retrieve data from the Google Places API.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
@@ -18,8 +17,9 @@ Config/testthat/edition: 3
 VignetteBuilder: knitr
 Imports: 
     data.table,
-    spatialEco
+    spatialEco,
+    Imap
 Remotes:
-    John-R-Wallace-NOAA/Imap
+    John-R-Wallace-NOAA/Imap@master,
     valentinitnelav/geobuffer
 URL: https://umatter.github.io/placeR/
