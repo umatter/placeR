@@ -1,0 +1,10 @@
+*.Rproj
+_misc
+.Rproj.user/
+.Rproj.user
+.RData
+.Rhistory
+*.html
+Rplot.pdf
+inst/doc
+docs
