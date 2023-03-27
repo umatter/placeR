@@ -18,17 +18,21 @@ knitr::opts_chunk$set(
 ## Set Up
 
 Installation:
-```{r message=FALSE, warning=FALSE, eval=TRUE, include=FALSE}
-devtools::install_github("umatter/placeR", force = TRUE)
+```{r message=FALSE, warning=FALSE, eval=FALSE, include=FALSE}
+devtools::install_github("umatter/placeR")
 ```
 
-The package's request functions expect a variable `api.key` with the Google Places API Key stored in it in the global environment.
+The package's request functions expect the Google Places API Key to be stored with the `api_key_()` function.
 ```{r message=FALSE, warning=FALSE, echo=FALSE}
+library(placeR)
 api.key <- readLines("../_misc/key")[1]
+api_key(api.key)
 ```
 
 ```{r message=FALSE, warning=FALSE, eval=FALSE}
+library(placeR)
 api.key <- "YOUR-API-KEY"
+api_key(api.key)
 ```
 
 
@@ -113,14 +117,14 @@ Run the area scan. Note that due to the depriciation of the API's radar search f
 # extract map edges
 edges <- getEdges(x=bs) 
 # run the scan
-scanresp <- areaScan(area=edges, radius=3000, types="church", details=FALSE )
+scanresp <- areaScan(area=edges, radius=5000, types="church", details=FALSE )
 ```
 
 Extract, clean, and have a look at the data...
 ```{r message=FALSE, warning=FALSE}
 data <- placesData(scanresp)
 data <- data[!duplicated(data$id),]
-plot(scanresp, ggmap.zoom=12, ncircles=6)
+plot(scanresp, ggmap.zoom=12, ncircles=4)
 ```
 
 
