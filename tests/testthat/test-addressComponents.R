@@ -22,7 +22,7 @@ test_that("addressComponents function works correctly", {
   ac_df <- addressComponents(r)
 
   # Check the output
-  expect_is(ac_df, "data.frame")
+  expect_s3_class(ac_df, "data.frame")
   expect_named(ac_df, c("street_address", "locality.political"))
   expect_equal(ac_df$street_address, "123 Main Street")
   expect_equal(ac_df$locality.political, "New York")
