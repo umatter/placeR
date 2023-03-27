@@ -5,32 +5,34 @@
 \title{Get River Polygons of a Country
 Extracts river polygons from hydroshed shapefile data}
 \usage{
-getCountryRivers(rivers, country, tol=0.1, intermediate=FALSE)
+getCountryRivers(rivers, country, tol=0.1)
 }
 \arguments{
-\item{rivers}{SpatialLinesDataFrame object of imported hydroshed shapefile, or path to such a file}
+\item{rivers}{sf object of imported hydroshed shapefile, or path to such a file}
 
-\item{country}{character, name of the country according to GADM database, or an object of class "SpatialPolygons"}
+\item{country}{character, name of the country according to GADM database, or an object of class "SpatVector"}
 
 \item{tol}{numeric, tolerance value to be used by the Douglas-Peuker algorithm to simplify the country-shapefile, defaults to .1}
 }
 \value{
-SpatialPolygonsDataFrame object (or a list of SpatialPolygonsDataFrame, raster and SpatialPolygons objects, see details)
+sf object representing the river polygons within the specified country
 }
 \description{
 Get River Polygons of a Country
 Extracts river polygons from hydroshed shapefile data
 }
 \details{
-By default, the function assumes that the river shapefile data is from this HydroSHEDS: https://hydrosheds.org/pages/overview.
-The user has to select the right shapefile as input (they are devided into regions, EU, North America, etc.). NOTE: reading the rivers shapefile can
+By default, the function assumes that the river shapefile data is from HydroSHEDS: https://hydrosheds.org/pages/overview.
+The user has to select the right shapefile as input (they are divided into regions, EU, North America, etc.). NOTE: reading the rivers shapefile can
 take a while!
 }
 \examples{
+\dontrun{
 # load river network shapefile from https://hydrosheds.org/downloads
 rivers <- "_misc/hydrosheds/eu_riv_15s/eu_riv_15s.shp"
 swiss_rivers <- getCountryRivers(rivers, country="SWITZERLAND", tol=0.05)
 plot(swiss_cities)
+}
 }
 \author{
 Ulrich Matter <umatter@protonmail.com>

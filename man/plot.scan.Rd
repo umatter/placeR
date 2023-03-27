@@ -4,7 +4,17 @@
 \alias{plot.scan}
 \title{Plot Method For Scan Objects}
 \usage{
-plot.scan(x, ggmap.zoom=7, ncircles=1, col.grid="white", col.loc="#e55562", col.area="#6b3a70", col.search="#4db0d9", col.circles="#4db0d9", poly.map = NULL )
+plot.scan(
+  x,
+  ggmap.zoom = 7,
+  ncircles = 1,
+  col.grid = "gray",
+  col.loc = "#e55562",
+  col.area = "#6b3a70",
+  col.search = "#4db0d9",
+  col.circles = "#4db0d9",
+  poly.map = NULL
+)
 }
 \arguments{
 \item{x}{object of class scan}

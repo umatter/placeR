@@ -2,30 +2,37 @@
 % Please edit documentation in R/placeDetails.R
 \name{placeDetails}
 \alias{placeDetails}
-\title{Get Details Of Place}
+\title{Place Details Function}
 \usage{
-placeDetails(reference, language=NULL, saveDL=FALSE, chunksize=100, pause=0 )
+placeDetails(
+  reference,
+  language = NULL,
+  saveDL = FALSE,
+  chunksize = 100,
+  pause = 0
+)
 }
 \arguments{
-\item{reference}{character, the Google Places API reference code of a place (i.e. a restaurant).}
+\item{reference}{A character vector of reference(s) for the place(s) you want to retrieve details for.}
+
+\item{language}{(Optional) A character string specifying the language to be used for the returned data. Default is NULL.}
+
+\item{saveDL}{(Optional) A logical value indicating whether to save the responses to disk. Default is FALSE.}
+
+\item{chunksize}{(Optional) An integer specifying the number of requests to process at a time when saving responses to disk. Default is 100.}
+
+\item{pause}{(Optional) A numeric value indicating the time (in seconds) to pause between chunks when saving responses to disk. Default is 0.}
 }
 \value{
-a placedetails object
+A "placedetails" S4 object containing the search results (results.df) and the parameters used for the request (parameters.df).
 }
 \description{
-Takes the reference code of a place and returns detailed information about this place.
-}
-\details{
-see https://developers.google.com/places/documentation/details for a list of all variables
+This function retrieves detailed information about a place using its reference.
+It can also save the results to disk and allows for customizing the request process.
 }
 \examples{
-placeDetails("CmRYAAAAciqGsTRX1mXRvuXSH2ErwW-jCINE1aLiwP64MCWDN5vkXvXoQGPKldMfmdGyqWSpm7BEYCgDm-iv7Kc2PF7QA7brMAwBbAcqMr5i1f4PwTpaovIZjysCEZTry8Ez30wpEhCNCXpynextCld2EBsDkRKsGhSLayuRyFsex6JA6NPh9dyupoTH3g")
-# typical usage example (Basel)
-# 1. get references to restaurants via radar search:
-refs <- searchRadar(location="47.566667,7.6", radius=2000, types="restaurant")
-# 2. get details to all these references:
-rest.basel <- placeDetails(reference=refs$reference)
+\dontrun{
+reference <- "some_place_reference"
+place_details <- placeDetails(reference, language="en", saveDL=FALSE)
 }
-\author{
-Ulrich Matter <umatter@protonmail.com>
 }

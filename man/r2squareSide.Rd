@@ -4,7 +4,7 @@
 \alias{r2squareSide}
 \title{Get Square Side}
 \usage{
-r2squareSide(x, zoomfactor=1)
+r2squareSide(r)
 }
 \arguments{
 \item{r}{numeric, radius of a circle}

@@ -24,12 +24,14 @@ the function returns a 2x2 data frame containing the two extreme points (edges) 
 y-coordinates (lat) in the second column. This is used as input for a area search. (instead of manually providing such a data.frame)
 }
 \examples{
+\dontrun{
 # example:
 cantons <- readRDS(url("https://biogeo.ucdavis.edu/data/gadm3.6/Rsp/gadm36_CHE_1_sp.rds"))
 ag <- cantons[cantons$NAME_1=="Aargau",]
 edges <- getEdges(x=ag, zoomfactor=1.01)
 several_cantons <- list(cantons[1,], cantons[2,])
 several_edges <- getAllEdges(several_cantons)
+}
 }
 \author{
 Ulrich Matter <umatter@protonmail.com>

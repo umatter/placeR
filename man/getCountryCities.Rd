@@ -3,44 +3,52 @@
 \name{getCountryCities}
 \alias{getCountryCities}
 \title{Get City Polygons of a Country
-Extracts polygon 'city' boundaries from GHS settlement grid raster data}
+Extracts city polygon boundaries from the GHS settlement grid raster data}
 \usage{
-getCountryCities(r, country, sub_country = NULL, sub_country_var = NULL, min_value = 3, tol=0.1, intermediate=FALSE)
+getCountryCities(
+  r,
+  country,
+  sub_country = NULL,
+  sub_country_var = NULL,
+  min_value = 3,
+  tol = 0.05,
+  intermediate = FALSE
+)
 }
 \arguments{
-\item{r}{RasterLayer object of imported GHS settlement grid raster file, or path to such a file}
+\item{r}{A RasterLayer object of the imported GHS settlement grid raster file or the file path to such a file}
 
-\item{country}{character, name of the country according to GADM database or SpatialPolygonsDataFrame containing the country data}
+\item{country}{A character string representing the name of the country according to the GADM database, or a SpatialPolygonsDataFrame containing the country data}
 
-\item{sub_country}{character, name of the subnational unit to select from country (if NULL, the entire country is processed; default: NULL)}
+\item{sub_country}{A character string representing the name of the subnational unit to select from the country (if NULL, the entire country is processed; default: NULL)}
 
-\item{sub_country_var}{character, the variable name in country used for the variable that distinguishes subnational units (if NULL, the entire country is processed; default: NULL)}
+\item{sub_country_var}{A character string representing the variable name in the country used for the variable that distinguishes subnational units (if NULL, the entire country is processed; default: NULL)}
 
-\item{min_value}{integer, minimum cell value to consider (as 'city', defaults to 3, urban centers)}
+\item{min_value}{An integer representing the minimum cell value to consider as a city (default is 3, representing urban centers)}
 
-\item{tol}{numeric, tolerance value to be used by the Douglas-Peuker algorithm to simplify the country-shapefile, defaults to .1}
+\item{tol}{A numeric value representing the tolerance value used by the Douglas-Peuker algorithm to simplify the country shapefile (default is 0.1)}
 
-\item{intermediate}{logical, if TRUE, intermediate results (raster data and country polygon are returned as well), defaults to FALSE}
+\item{intermediate}{A logical value; if TRUE, intermediate results (raster data and country polygon) are returned as well (default is FALSE)}
 }
 \value{
-SpatialPolygonsDataFrame object (or a list of SpatialPolygonsDataFrame, raster and SpatialPolygons objects, see details)
+A SpatialPolygonsDataFrame object (or a list containing SpatialPolygonsDataFrame, raster, and SpatialPolygons objects if intermediate is set to TRUE)
 }
 \description{
 Get City Polygons of a Country
-Extracts polygon 'city' boundaries from GHS settlement grid raster data
+Extracts city polygon boundaries from the GHS settlement grid raster data
 }
 \details{
-The European Commission's GHS SETTLEMENT GRID (LDS) (https://ghslsys.jrc.ec.europa.eu/ghs_smod.php) provides raster data on settlements (urban centers/surroundings)
-worldwide. This function takes their data as input, identifies all urban areas ('cities') in a given country, and extracts
-the shape of the cities (polygons) as features of one SpatialPolygons object of the country's extent.
+The European Commission's GHS SETTLEMENT GRID (LDS) (https://ghslsys.jrc.ec.europa.eu/ghs_smod.php) provides raster data on settlements (urban centers/surroundings) worldwide. This function takes their data as input, identifies all urban areas (cities) in a given country, and extracts the city shapes (polygons) as features of a SpatialPolygons object of the country's extent.
 }
 \examples{
+\dontrun{
 PATH <- "_misc/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0.tif"
 swiss_cities <- getCountryCities(PATH, country="SWITZERLAND", tol=0.005)
 # contains by default the entire city polygons (also over the country border)
 plot(swiss_cities)
-# only consider parts within country
+# only consider parts within the country
 plot(swiss_cities[swiss_cities$in_country,])
+}
 }
 \author{
 Ulrich Matter <umatter@protonmail.com>

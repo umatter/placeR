@@ -48,8 +48,10 @@ respect the time gap "between when a next_page_token is issued, and when it will
 (see: https://developers.google.com/places/documentation/search)
 }
 \examples{
+\dontrun{
 example (taken from google developers):
 searchNearby(location="-33.8670522,151.1957362", types="food", radius=5000)
+}
 }
 \author{
 Ulrich Matter <umatter@protonmail.com>

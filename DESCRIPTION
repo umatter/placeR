@@ -9,9 +9,12 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
+Depends:
+    R (>= 3.5.0)
 Suggests: 
     knitr,
     rmarkdown,
+    terra,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
@@ -28,7 +31,9 @@ Imports:
     ggthemes,
     httr,
     raster,
-    geosphere
+    geosphere,
+    sf,
+    geodata
 Remotes:
     John-R-Wallace-NOAA/Imap@master,
     valentinitnelav/geobuffer

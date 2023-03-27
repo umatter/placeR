@@ -7,7 +7,7 @@
 extractDetailsResults(x)
 }
 \arguments{
-\item{response}{a nested list containing search results from a details search}
+\item{x}{a nested list containing search results from a details search}
 }
 \value{
 a data frame

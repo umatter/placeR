@@ -25,12 +25,14 @@ Matches coordinates (points) of cities to urban center polygons.
 Note that if extend is larger than 0, the extension only affects the overlay with city ponits. The returned polygon is not extended.
 }
 \examples{
+\dontrun{
 # first get the cities polygons
 PATH <- "_misc/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0.tif"
 poly <- getCountryCities(PATH, country="SWITZERLAND", tol=0.001)
 # load cities from http://worldmap.harvard.edu/data/geonode:placemarks_edited_columns_yz6
 cities <- "_misc/placemarks_edited_columns_yz6/placemarks_edited_columns_yz6.shp"
 swiss_cities_named <- addCityNames(poly, cities)
+}
 }
 \author{
 Ulrich Matter <umatter@protonmail.com>

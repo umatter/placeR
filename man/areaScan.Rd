@@ -34,6 +34,7 @@ a details search for each radar search reference)
 NOTE: randomizations and list-input only works if details==FALSE!
 }
 \examples{
+\dontrun{
 # example of search: scan all switzerland
 library(sp)
 cantons <- readRDS(url("https://biogeo.ucdavis.edu/data/gadm3.6/Rsp/gadm36_CHE_1_sp.rds"))
@@ -47,6 +48,7 @@ scanresp <- areaScan(area=edges,radius=20000, types="church",details=FALSE, rand
 data <- placesData(scanresp)
 data <- data[!duplicated(data$id),]
 View(data)
+}
 }
 \author{
 Ulrich Matter <umatter@protonmail.com>

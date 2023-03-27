@@ -4,7 +4,13 @@
 \alias{saveDL}
 \title{Save Download}
 \usage{
-saveDL(request.function, request.id, chunksize=100, pause=0, backupfile="saveDl.list.Rdata" )
+saveDL(
+  request.function,
+  request.id,
+  chunksize = 100,
+  pause = 0,
+  backupfile = "saveDl.list.Rdata"
+)
 }
 \arguments{
 \item{request.function}{the request function used for the individual downloads}
@@ -16,8 +22,6 @@ saveDL(request.function, request.id, chunksize=100, pause=0, backupfile="saveDl.
 \item{pause}{numeric, duration of break between chunks in seconds}
 
 \item{backupfile}{character, the path/name of the file to cache the data during download in progress}
-
-\item{url.list}{list of urls (character strings)}
 }
 \value{
 a list with the parsed json objects

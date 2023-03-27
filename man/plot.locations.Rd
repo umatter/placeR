@@ -4,7 +4,7 @@
 \alias{plot.locations}
 \title{Plot Method For Location Objects}
 \usage{
-locations(x)
+plot.locations(x, ggmap.zoom = 7, ncircles = 1, googlemap = TRUE)
 }
 \arguments{
 \item{x}{object of class location}

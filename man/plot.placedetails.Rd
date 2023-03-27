@@ -4,7 +4,16 @@
 \alias{plot.placedetails}
 \title{Plot Method For Placedetails Objects}
 \usage{
-plot.placedetails(x, ggmap.zoom="auto", ncircles=1, col.grid="white", col.loc="#e55562", col.area="#6b3a70", col.search="#4db0d9", col.circles="#4db0d9" )
+plot.placedetails(
+  x,
+  ggmap.zoom = "auto",
+  ncircles = 1,
+  col.grid = "white",
+  col.loc = "#e55562",
+  col.area = "#6b3a70",
+  col.search = "#4db0d9",
+  col.circles = "#4db0d9"
+)
 }
 \arguments{
 \item{x}{object of class placedetails}
