@@ -20,7 +20,6 @@
 ##' @author Ulrich Matter <umatter@protonmail.com>
 ##' @examples
 ##' \dontrun{
-##' example (taken from google developers):
 ##' searchNearby(location="-33.8670522,151.1957362", types="food", radius=5000)
 ##' }
 ##' @export
