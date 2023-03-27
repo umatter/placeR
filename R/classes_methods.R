@@ -87,7 +87,29 @@ setMethod(f = "show",
 #----------------------------------
 
 
-# definition of the plot function
+#' Plot a placesearch object on a map
+#'
+#' This function takes a placesearch object and plots it on a map using ggmap.
+#' The function allows for customization of colors and zoom level.
+#'
+#' @param x A placesearch object to be plotted on the map.
+#' @param ggmap.zoom Zoom level for the map (default: "auto").
+#' @param ncircles Number of circles to be plotted (default: 1).
+#' @param col.grid Color for the grid (default: "white").
+#' @param col.loc Color for the location points (default: "#e55562").
+#' @param col.area Color for the area (default: "#6b3a70").
+#' @param col.search Color for the search points (default: "#4db0d9").
+#' @param col.circles Color for the circles (default: "#4db0d9").
+#'
+#' @return A ggplot object with the plotted placesearch object.
+#' @export
+#' @import ggmap
+#' @import ggplot2
+#' @examples
+#' \dontrun{
+#' # Assuming you have a placesearch object named 'ps_obj'
+#' plot.placesearch(ps_obj)
+#' }
 plot.placesearch <- function(x, ggmap.zoom="auto", ncircles=1, col.grid="white", col.loc="#e55562", col.area="#6b3a70", col.search="#4db0d9", col.circles="#4db0d9" ) {
 
 

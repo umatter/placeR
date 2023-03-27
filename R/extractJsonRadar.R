@@ -6,7 +6,9 @@
 ##' @details ...
 ##' @author Ulrich Matter <umatter@protonmail.com>
 ##'
-##' @import data.table
+#' @importFrom  data.table data.table
+#' @importFrom  data.table rbindlist
+
 
 
 extractJsonRadar <-
@@ -17,12 +19,12 @@ extractJsonRadar <-
       result.dfs <- lapply(response[["results"]],
                            FUN=function(r){ # extract the following key:value pairs and order in df
 
-        r.df <- data.table(reference=r[["reference"]],
+        r.df <- data.table::data.table(reference=r[["reference"]],
                            stringsAsFactors=FALSE )   # could be extended with photos etc.
         return(r.df)
         })
 
-      results <- rbindlist(result.dfs, use.names = TRUE, fill = TRUE)
+      results <- data.table::rbindlist(result.dfs, use.names = TRUE, fill = TRUE)
       results$status <- "OK"
 
     } else { # error occured: extract status message

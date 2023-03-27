@@ -7,7 +7,8 @@
 ##' @details see extractJsonRadar for details on what key:value pairs of the parsed json responses are extracted.
 ##' @author Ulrich Matter <umatter@protonmail.com>
 ##'
-##' @import data.table
+#' @importFrom data.table rbindlist
+
 
 
 extractResultsRadar <-
@@ -22,6 +23,6 @@ extractResultsRadar <-
 
     })
 
-    return(rbindlist(results.list, fill = TRUE, use.names = TRUE))
+    return(data.table::rbindlist(results.list, fill = TRUE, use.names = TRUE))
 
   }

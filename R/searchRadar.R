@@ -16,10 +16,10 @@
 ##' list of lat/long-character-strings (allowing for automated search of many locations)
 ##' @author Ulrich Matter <umatter@protonmail.com>
 ##' @examples
-##' example (taken from google developers):
+##' \dontrun{
 ##' searchRadar(location="51.503186,-0.126446", types="museum")
-##' example 2 (Basel)
 ##' searchRadar(location="47.566667,7.6", types="restaurant")
+##' }
 ##' @export
 ##'
 

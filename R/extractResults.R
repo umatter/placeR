@@ -6,7 +6,8 @@
 ##' @details see extractJson for details on what key:value pairs of the parsed json responses are extracted.
 ##' @author Ulrich Matter <umatter@protonmail.com>
 ##'
-##' @import data.table
+#' @importFrom data.table rbindlist
+
 
 
 
@@ -20,6 +21,6 @@ extractResults <-
 
     })
 
-    return(rbindlist(results.list, use.names = TRUE, fill = TRUE))
+    return(data.table::rbindlist(results.list, use.names = TRUE, fill = TRUE))
   }
 

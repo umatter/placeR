@@ -1,7 +1,6 @@
 ##' Plot Method For Location Objects
 ##'
 ##' Takes an object of class locations and plots the locations to a map
-##' @usage locations(x)
 ##' @param x object of class location
 ##' @param ggmap.zoom integer, zoom parameter for ggmap output
 ##' @param ncircles integer, the number of circles to be plotted (centered around search area, defaults to 1)

@@ -8,14 +8,16 @@
 ##' @details Note that if extend is larger than 0, the extension only affects the overlay with city ponits. The returned polygon is not extended.
 ##' @author Ulrich Matter <umatter@protonmail.com>
 ##' @examples
+##' \dontrun{
 ##' # first get the cities polygons
 ##' PATH <- "_misc/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0/GHS_SMOD_POP2015_GLOBE_R2016A_54009_1k_v1_0.tif"
 ##' poly <- getCountryCities(PATH, country="SWITZERLAND", tol=0.001)
 ##' # load cities from http://worldmap.harvard.edu/data/geonode:placemarks_edited_columns_yz6
 ##' cities <- "_misc/placemarks_edited_columns_yz6/placemarks_edited_columns_yz6.shp"
 ##' swiss_cities_named <- addCityNames(poly, cities)
+##' }
 ##' @export
-##' @import sp rgeos rgdal data.table
+##' @import sp rgeos rgdal raster
 ##'
 
 addCityNames <-
@@ -24,27 +26,27 @@ addCityNames <-
     # ensure correct input
     if (class(cities)[1]=="character") {
       if (file.exists(cities)){
-        cities <- rgdal::readOGR(cities, verbose = FALSE)
+        cities <- suppressWarnings(rgdal::readOGR(cities, verbose = FALSE)) # warnings due to retirement of rgeos.needs to be changed at some point but works just fine now.
       }
     }
 
     if (expand=="auto"){
-      expand <- area(rgeos::bbox2SP(bbox=poly@bbox))/1750000000 # Note: this is based on the Italy example, results in ~500 for Italy, which works well there
+      expand <- suppressWarnings(raster::area(rgeos::bbox2SP(bbox=poly@bbox))/1750000000) # Note: this is based on the Italy example, results in ~500 for Italy, which works well there
     }
 
     stopifnot(class(cities)=="SpatialPointsDataFrame")
 
     # cut out city-markers within polygons and merge meta data
-    poly2 <- sp::spTransform(x=poly, CRSobj=CRS("+init=epsg:32662"))
-    poly2 <- gBuffer(poly2, byid = TRUE, width = expand)
-    poly2 <- sp::spTransform(x=poly2, CRSobj=poly@proj4string)
-    cities <- sp::spTransform(x=cities, CRSobj = poly@proj4string) # seems to be necessary on OSX but not on Linux, unclear why
+    poly2 <- suppressWarnings(sp::spTransform(x=poly, CRSobj=CRS("+init=epsg:32662")))
+    poly2 <- suppressWarnings(rgeos::gBuffer(poly2, byid = TRUE, width = expand))
+    poly2 <- suppressWarnings(sp::spTransform(x=poly2, CRSobj=poly@proj4string))
+    cities <- suppressWarnings(sp::spTransform(x=cities, CRSobj = poly@proj4string)) # seems to be necessary on OSX but not on Linux, unclear why
     #cities_points <- SpatialPoints(cities@coords, cities@proj4string)
     match_data <- na.omit(over(cities, poly2))
     points_data <- cities@data[as.numeric(row.names(match_data)),]
     points_data$match_id <- row.names(match_data)
     match_data$match_id <- row.names(match_data)
-    match_data <- as.data.table(merge(match_data, points_data, by="match_id", all=TRUE))
+    match_data <- data.table::as.data.table(merge(match_data, points_data, by="match_id", all=TRUE))
 
     # filter/clean results (current goal: keep only major cities)
     match_data[,is_max:=max(population)==population, by=ID]

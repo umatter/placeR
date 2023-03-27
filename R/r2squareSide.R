@@ -1,7 +1,6 @@
 ##' Get Square Side
 ##'
 ##' Compute the length of the square side of the square that has a diagonal equal to 2r
-##' @usage r2squareSide(x, zoomfactor=1)
 ##' @param r numeric, radius of a circle
 ##' @return numeric
 ##' @details

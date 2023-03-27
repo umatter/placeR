@@ -25,11 +25,8 @@ extractPolygonIslands <-
     })
 
     # initiate SpatialPolygons object, keep same projection as input object
-    spo <- SpatialPolygons(polys, proj4string = crs(proj4string(spdf)))
+    spo <- SpatialPolygons(polys, proj4string = CRS(proj4string(spdf)))
     return(spo)
 
 
   }
-
-
-

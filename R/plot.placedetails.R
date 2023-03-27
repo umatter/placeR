@@ -1,7 +1,6 @@
 ##' Plot Method For Placedetails Objects
 ##'
 ##' Takes an object of class scan and plots the locations and search grid to a map
-##' @usage plot.placedetails(x, ggmap.zoom="auto", ncircles=1, col.grid="white", col.loc="#e55562", col.area="#6b3a70", col.search="#4db0d9", col.circles="#4db0d9" )
 ##' @param x object of class placedetails
 ##' @param ggmap.zoom integer, zoom parameter for ggmap output
 ##' @param ncircles integer, the number of circles to be plotted (centered around search area, defaults to 1)

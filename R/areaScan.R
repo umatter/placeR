@@ -18,6 +18,7 @@
 ##' NOTE: randomizations and list-input only works if details==FALSE!
 ##' @author Ulrich Matter <umatter@protonmail.com>
 ##' @examples
+##' \dontrun{
 ##' # example of search: scan all switzerland
 ##' library(sp)
 ##' cantons <- readRDS(url("https://biogeo.ucdavis.edu/data/gadm3.6/Rsp/gadm36_CHE_1_sp.rds"))
@@ -31,9 +32,15 @@
 ##' data <- placesData(scanresp)
 ##' data <- data[!duplicated(data$id),]
 ##' View(data)
+##' }
 ##' @export
 ##' @importFrom httr parse_url
-##' @import data.table
+#' @importFrom data.table as.data.table
+#' @importFrom data.table rbindlist
+#'
+
+
+
 
 
 areaScan <-
@@ -77,7 +84,7 @@ areaScan <-
         for (i in 1:n_locs) {
           loc.i <- as.character(all_locs_df$loc[i])
           # issue query
-          refs_list[[i]] <- as.data.table(placesData(searchNearby(location = loc.i,
+          refs_list[[i]] <- data.table::as.data.table(placesData(searchNearby(location = loc.i,
                                          radius = radius,
                                          types = types)))
           # take a random break
@@ -87,12 +94,12 @@ areaScan <-
         }
 
         # stack results
-        refs <- rbindlist(refs_list, use.names = TRUE, fill = TRUE)
+        refs <- data.table::rbindlist(refs_list, use.names = TRUE, fill = TRUE)
         refs <- refs[refs$status=="OK",] # only keep those responses with results
 
 
       } else {
-        refs <- as.data.table(placesData(searchNearby(location=all_locs_df$loc,
+        refs <- data.table::as.data.table(placesData(searchNearby(location=all_locs_df$loc,
                                         radius=radius,
                                         types=types)))
         refs <- refs[refs$status=="OK",] # only keep those responses with results

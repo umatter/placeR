@@ -8,7 +8,9 @@
 ##' list of lat/long-character-strings (allowing for automated search of many locations)
 ##' @author Ulrich Matter <umatter@protonmail.com>
 ##'
-##' @import data.table
+#' @importFrom data.table data.table
+#' @importFrom data.table rbindlist
+
 
 
 extractJson <-
@@ -32,7 +34,7 @@ extractJson <-
         return(r.df)
 
       })
-      results <- rbindlist(result.dfs, use.names = TRUE, fill = TRUE)
+      results <- data.table::rbindlist(result.dfs, use.names = TRUE, fill = TRUE)
 
       if (length(response[["html_attributions"]]) != 0){
         results$html_attributions <- response[["html_attributions"]]
@@ -43,7 +45,7 @@ extractJson <-
       results$status <- "OK"
 
     } else { # error occured: extract status message
-      results <- data.table(status=response[["status"]], stringsAsFactors=FALSE)
+      results <- data.table::data.table(status=response[["status"]], stringsAsFactors=FALSE)
     }
 
     return(results)

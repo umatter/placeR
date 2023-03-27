@@ -5,6 +5,7 @@
 # searchtype: is a character string, either "nearby", "text", or "radar", defining the type of search
 generateURL <-
   function (searchtype, search.param) {
+    api.key <- Sys.getenv("API_KEY")
     url <- paste("https://maps.googleapis.com/maps/api/place/", searchtype, "/json?",  search.param, "&key=", api.key, sep="") #generate url for request
     return(url)
   }
